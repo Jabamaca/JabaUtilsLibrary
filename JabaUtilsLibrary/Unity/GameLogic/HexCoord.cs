@@ -19,8 +19,8 @@ namespace JabaUtilsLibrary.Unity.GameLogic {
         private static readonly Vector2 HRotationY = new (-1f, 1f);
         private static readonly Vector2 VRotationX = new (1f, -1f);
         private static readonly Vector2 VRotationY = new (0.5f, 0.5f);
-        private static readonly Vector2[] HRotateMatrix = { HRotationX, HRotationY };
-        private static readonly Vector2[] VRotateMatrix = { VRotationX, VRotationY };
+        private static readonly Vector2[] HRotateMatrix = [HRotationX, HRotationY];
+        private static readonly Vector2[] VRotateMatrix = [VRotationX, VRotationY];
 
         #endregion
 
@@ -51,11 +51,11 @@ namespace JabaUtilsLibrary.Unity.GameLogic {
 
         public static IReadOnlyList<Vector2Int> HexCoordsInRangeFromHexCoord (Vector2Int hexFrom, int r) {
             if (r < 0) {
-                return Array.Empty<Vector2Int> ();
+                return [];
             }
 
             if (r == 0) {
-                Vector2Int[] center = { HexCenter };
+                Vector2Int[] center = [HexCenter];
                 return center;
             }
 
