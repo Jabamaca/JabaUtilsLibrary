@@ -13,16 +13,35 @@ namespace JabaUtilsLibrary.Data.Packeting {
 
         #region Methods
 
-        public static bool[] ByteToBoolArray (byte b) {
-            bool[] result = new bool[BIT_COUNT_OF_BYTE];
+        #region Packeting Methods
 
-            for (int i = 0; i < BIT_COUNT_OF_BYTE; i++)
-                result[i] = (b & 0x01 << i) != 0;
-
-            return result;
+        public static void AddBytesToArray (IEnumerable<byte> bytesToAdd, byte[] byteArray, ref int currentByteIndex) {
+            foreach (byte byteToAdd in bytesToAdd) {
+                AddByteToArray (byteToAdd, byteArray, ref currentByteIndex);
+            }
         }
 
-        public static byte ByteFromBoolArray (bool[] source) {
+        public static void AddByteToArray (byte byteToAdd, byte[] byteArray, ref int currentByteIndex) {
+            byteArray[currentByteIndex] = byteToAdd;
+            currentByteIndex++;
+        }
+
+        #endregion
+
+        #region Conversion Methods
+
+        // **** BOOLEAN ARRAY (8-bit) Packeting
+
+        public static void NextByteToBoolArray (byte[] bytes, ref int currentByteIndex, out bool[] outValue) {
+            outValue = new bool[BIT_COUNT_OF_BYTE];
+            byte currentByte = bytes[currentByteIndex];
+
+            for (int i = 0; i < BIT_COUNT_OF_BYTE; i++)
+                outValue[i] = (currentByte & 0x01 << i) != 0;
+            currentByteIndex++;
+        }
+
+        public static byte GetByte (bool[] source) {
             if (source.Length != BIT_COUNT_OF_BYTE)
                 return 0x00;
 
@@ -36,84 +55,112 @@ namespace JabaUtilsLibrary.Data.Packeting {
             return result;
         }
 
-        public static void BytesToBoolArray (byte[] bytes, int byteCount, ref int currentByteIndex, out bool[] boolArray) {
-            if (byteCount <= 0) {
-                boolArray = new bool[8 * byteCount];
-                return;
-            }
+        // **** BYTE (8-bit) Packeting
 
-            boolArray = new bool[BIT_COUNT_OF_BYTE * byteCount];
-            int boolIndex = 0;
-
-            for (int i = 0; i < byteCount; i++) {
-                byte boolByte = bytes[currentByteIndex];
-                foreach (bool b in ByteToBoolArray (boolByte)) {
-                    boolArray[boolIndex] = b;
-                    boolIndex++;
-                }
-                currentByteIndex++;
-            }
-        }
-
-        public static void AddBytesToArray (IEnumerable<byte> bytesToAdd, byte[] byteArray, ref int currentByteIndex) {
-            foreach (byte byteToAdd in bytesToAdd) {
-                AddByteToArray (byteToAdd, byteArray, ref currentByteIndex);
-            }
-        }
-
-        public static void AddByteToArray (byte byteToAdd, byte[] byteArray, ref int currentByteIndex) {
-            byteArray[currentByteIndex] = byteToAdd;
-            currentByteIndex++;
-        }
-
-        public static void ExtractNextByteFromArray (byte[] bytes, ref int currentByteIndex, out byte outValue) {
+        public static void NextByte (byte[] bytes, ref int currentByteIndex, out byte outValue) {
             outValue = bytes[currentByteIndex];
             currentByteIndex++;
         }
 
-        public static void BytesToUInt64 (byte[] bytes, ref int currentByteIndex, out ulong outValue) {
+        // **** U-LONG (64-bit) Packeting
+
+        public static void NextBytesToULong (byte[] bytes, ref int currentByteIndex, out ulong outValue) {
             outValue = BitConverter.ToUInt64 (bytes, startIndex: currentByteIndex);
             currentByteIndex += sizeof (ulong);
         }
 
-        public static void BytesToInt64 (byte[] bytes, ref int currentByteIndex, out long outValue) {
+        public static byte[] GetBytes (ulong source) {
+            return BitConverter.GetBytes (source);
+        }
+
+        // **** LONG (64-bit) Packeting
+
+        public static void NextBytesToLong (byte[] bytes, ref int currentByteIndex, out long outValue) {
             outValue = BitConverter.ToInt64 (bytes, startIndex: currentByteIndex);
             currentByteIndex += sizeof (long);
         }
 
-        public static void BytesToUInt32 (byte[] bytes, ref int currentByteIndex, out uint outValue) {
+        public static byte[] GetBytes (long source) {
+            return BitConverter.GetBytes (source);
+        }
+
+        // **** U-INT (32-bit) Packeting
+
+        public static void NextBytesToUInt (byte[] bytes, ref int currentByteIndex, out uint outValue) {
             outValue = BitConverter.ToUInt32 (bytes, startIndex: currentByteIndex);
             currentByteIndex += sizeof (uint);
         }
 
-        public static void BytesToInt32 (byte[] bytes, ref int currentByteIndex, out int outValue) {
+        public static byte[] GetBytes (uint source) {
+            return BitConverter.GetBytes (source);
+        }
+
+        // **** INT (32-bit) Packeting
+
+        public static void NextBytesToInt (byte[] bytes, ref int currentByteIndex, out int outValue) {
             outValue = BitConverter.ToInt32 (bytes, startIndex: currentByteIndex);
             currentByteIndex += sizeof (int);
         }
 
-        public static void BytesToUInt16 (byte[] bytes, ref int currentByteIndex, out ushort outValue) {
+        public static byte[] GetBytes (int source) {
+            return BitConverter.GetBytes (source);
+        }
+
+        // **** U-SHORT (16-bit) Packeting
+
+        public static void NextBytesToUShort (byte[] bytes, ref int currentByteIndex, out ushort outValue) {
             outValue = BitConverter.ToUInt16 (bytes, startIndex: currentByteIndex);
             currentByteIndex += sizeof (ushort);
         }
 
-        public static void BytesToInt16 (byte[] bytes, ref int currentByteIndex, out short outValue) {
+        public static byte[] GetBytes (ushort source) {
+            return BitConverter.GetBytes (source);
+        }
+
+        // **** SHORT (16-bit) Packeting
+
+        public static void NextBytesToShort (byte[] bytes, ref int currentByteIndex, out short outValue) {
             outValue = BitConverter.ToInt16 (bytes, startIndex: currentByteIndex);
             currentByteIndex += sizeof (short);
         }
 
-        public static void BytesToDouble (byte[] bytes, ref int currentByteIndex, out double outValue) {
+        public static byte[] GetBytes (short source) {
+            return BitConverter.GetBytes (source);
+        }
+
+        // **** DOUBLE (64-bit) Packeting
+
+        public static void NextBytesToDouble (byte[] bytes, ref int currentByteIndex, out double outValue) {
             outValue = BitConverter.ToDouble (bytes, startIndex: currentByteIndex);
             currentByteIndex += sizeof (double);
         }
 
-        public static void BytesToString (byte[] bytes, int stringByteLength, ref int currentByteIndex, out string outValue) {
-            outValue = Encoding.UTF8.GetString (bytes, currentByteIndex, stringByteLength);
-            currentByteIndex += stringByteLength;
+        public static byte[] GetBytes (double source) {
+            return BitConverter.GetBytes (source);
+        }
+
+        // **** STRING (undefined bit size) Packeting
+
+        public static void NextBytesToString (byte[] bytes, ref int currentByteIndex, out string outValue) {
+            outValue = "";
+            NextBytesToInt (bytes, ref currentByteIndex, out int stringByteLength);
+
+            if (stringByteLength > 0) {
+                outValue = Encoding.UTF8.GetString (bytes, currentByteIndex, stringByteLength);
+                currentByteIndex += stringByteLength;
+            }
         }
 
         public static byte[] BytesFromString (string str) {
-            return Encoding.UTF8.GetBytes (str);
+            if (string.IsNullOrEmpty (str))
+                return [.. GetBytes(0)];
+
+            byte[] stringBytes = Encoding.UTF8.GetBytes (str);
+            byte[] lengthBytes = GetBytes (stringBytes.Length);
+            return [.. lengthBytes, .. stringBytes];
         }
+
+        #endregion
 
         #endregion
 

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System;
 
-namespace JabaUtilsLibrary.Data {
+namespace JabaUtilsLibrary.Data.Object {
 
     public class ShufflingList<T> {
 

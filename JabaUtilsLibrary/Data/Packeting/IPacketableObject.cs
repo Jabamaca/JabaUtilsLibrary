@@ -8,7 +8,7 @@
         #region Methods
 
         public int GetPacketSize ();
-        public void BytesToParams (byte[] bytes, ref int currentByteIndex);
+        public void NextBytesToParams (byte[] bytes, ref int currentByteIndex);
         public byte[] BytesFromParams ();
 
         #endregion
