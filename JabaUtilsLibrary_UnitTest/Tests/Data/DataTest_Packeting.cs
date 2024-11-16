@@ -1,6 +1,5 @@
 ﻿using JabaUtilsLibrary.Data;
 using JabaUtilsLibrary.Data.Packeting;
-using System;
 
 namespace JabaUtilsLibrary_UnitTest.Tests.Data {
     public class DataTest_Packeting {
