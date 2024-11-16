@@ -14,7 +14,7 @@ namespace JabaUtilsLibrary_UnitTest.Tests.Data {
 
         #region Testing Methods
 
-        private static void DataTest_List_CheckOrderedEquals<T> (List<T> sampleList) {
+        private static void TestMethod_CheckOrderedEquals<T> (List<T> sampleList) {
             List<T> sampleList1 = [.. sampleList,];
             List<T> sampleList2 = [.. sampleList,];
 
@@ -27,7 +27,7 @@ namespace JabaUtilsLibrary_UnitTest.Tests.Data {
             Assert.False (ListUtils.CheckOrderedEquals (sampleList1, sampleList2));
         }
 
-        private static void DataTest_List_CheckUnorderedEquals<T> (List<T> sampleList) {
+        private static void TestMethod_CheckUnorderedEquals<T> (List<T> sampleList) {
             List<T> sampleList1 = [.. sampleList,];
             List<T> sampleList2 = [.. sampleList,];
 
@@ -46,22 +46,22 @@ namespace JabaUtilsLibrary_UnitTest.Tests.Data {
 
         [Fact]
         public void DataTest_List_CheckOrderedEquals_Full () {
-            DataTest_List_CheckOrderedEquals (sampleStringList);
+            TestMethod_CheckOrderedEquals (sampleStringList);
         }
 
         [Fact]
         public void DataTest_List_CheckOrderedEquals_WithNull () {
-            DataTest_List_CheckOrderedEquals (sampleStringListWithNull);
+            TestMethod_CheckOrderedEquals (sampleStringListWithNull);
         }
 
         [Fact]
         public void DataTest_List_CheckUnorderedEquals_Full () {
-            DataTest_List_CheckUnorderedEquals (sampleStringList);
+            TestMethod_CheckUnorderedEquals (sampleStringList);
         }
 
         [Fact]
         public void DataTest_List_CheckUnorderedEquals_WithNull () {
-            DataTest_List_CheckUnorderedEquals (sampleStringListWithNull);
+            TestMethod_CheckUnorderedEquals (sampleStringListWithNull);
         }
 
         [Fact]

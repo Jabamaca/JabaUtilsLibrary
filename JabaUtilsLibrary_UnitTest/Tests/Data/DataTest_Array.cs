@@ -1,5 +1,4 @@
 ﻿using JabaUtilsLibrary.Data;
-using System.Collections.Generic;
 
 namespace JabaUtilsLibrary_UnitTest.Tests.Data {
     public class DataTest_Array {
@@ -13,7 +12,7 @@ namespace JabaUtilsLibrary_UnitTest.Tests.Data {
 
         #region Test Methods
 
-        private static void DataTest_List_CheckOrderedEquals<T> (T[] sampleList) {
+        private static void TestMethod_CheckOrderedEquals<T> (T[] sampleList) {
             T[] sampleList1 = [.. sampleList,];
             T[] sampleList2 = [.. sampleList,];
 
@@ -31,13 +30,13 @@ namespace JabaUtilsLibrary_UnitTest.Tests.Data {
         #region Main Tests
 
         [Fact]
-        public void DataTest_List_CheckOrderedEquals_Full () {
-            DataTest_List_CheckOrderedEquals (sampleStringArray);
+        public void DataTest_Array_CheckOrderedEquals_Full () {
+            TestMethod_CheckOrderedEquals (sampleStringArray);
         }
 
         [Fact]
-        public void DataTest_List_CheckOrderedEquals_WithNull () {
-            DataTest_List_CheckOrderedEquals (sampleStringArrayWithNull);
+        public void DataTest_Array_CheckOrderedEquals_WithNull () {
+            TestMethod_CheckOrderedEquals (sampleStringArrayWithNull);
         }
 
         #endregion

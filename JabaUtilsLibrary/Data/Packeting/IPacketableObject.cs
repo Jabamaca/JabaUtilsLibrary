@@ -9,7 +9,7 @@
 
         public int GetPacketSize ();
         public void NextBytesToParams (byte[] bytes, ref int currentByteIndex);
-        public byte[] BytesFromParams ();
+        public byte[] GetDataPacket ();
 
         #endregion
 
