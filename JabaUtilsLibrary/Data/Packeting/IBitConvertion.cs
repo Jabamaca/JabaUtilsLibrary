@@ -1,5 +1,5 @@
 ﻿namespace JabaUtilsLibrary.Data.Packeting {
-    public interface IPacketableObject {
+    public interface IBitConvertion {
 
         #region Properties
 
@@ -7,9 +7,9 @@
 
         #region Methods
 
-        public int GetPacketSize ();
+        public int GetByteCount ();
         public void NextBytesToParams (byte[] bytes, ref int currentByteIndex);
-        public byte[] GetDataPacket ();
+        public byte[] ToByteArray ();
 
         #endregion
 

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Text.Json;
 
 namespace JabaUtilsLibrary.Data {
 
@@ -31,7 +32,7 @@ namespace JabaUtilsLibrary.Data {
             return true;
         }
 
-        public static string DictToJsonString (Dictionary<string, string> dict) {
+        public static string DictToJsonString<K, V> (Dictionary<K, V> dict) {
             string returnValue = "{";
 
             bool firstValue = true;
@@ -43,7 +44,9 @@ namespace JabaUtilsLibrary.Data {
                     returnValue += ", ";
                 }
 
-                returnValue += "\"" + kvp.Key + "\":\"" + kvp.Value + "\"";
+                string serializedKey = JsonSerializer.Serialize (kvp.Key);
+                string serializedValue = JsonSerializer.Serialize (kvp.Value);
+                returnValue += "\"" + serializedKey + "\":\"" + serializedValue + "\"";
             }
 
             returnValue += "}";

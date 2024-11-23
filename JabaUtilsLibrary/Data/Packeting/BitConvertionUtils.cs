@@ -3,25 +3,19 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace JabaUtilsLibrary.Data.Packeting {
-    public static class DataPacketingUtils {
-
-        #region Properties
-
-        private const int BIT_COUNT_OF_BYTE = 8;
-
-        #endregion
+    public static class BitConvertionUtils {
 
         #region Methods
 
         #region Packeting Methods
 
-        public static void AddBytesToDataPacket (IEnumerable<byte> bytesToAdd, byte[] byteArray, ref int currentByteIndex) {
+        public static void AddBytesToByteArray (IEnumerable<byte> bytesToAdd, byte[] byteArray, ref int currentByteIndex) {
             foreach (byte byteToAdd in bytesToAdd) {
-                AddByteToDataPacket (byteToAdd, byteArray, ref currentByteIndex);
+                AddByteToByteArray (byteToAdd, byteArray, ref currentByteIndex);
             }
         }
 
-        public static void AddByteToDataPacket (byte byteToAdd, byte[] byteArray, ref int currentByteIndex) {
+        public static void AddByteToByteArray (byte byteToAdd, byte[] byteArray, ref int currentByteIndex) {
             byteArray[currentByteIndex] = byteToAdd;
             currentByteIndex++;
         }
@@ -30,29 +24,15 @@ namespace JabaUtilsLibrary.Data.Packeting {
 
         #region Conversion Methods
 
-        // **** BOOLEAN ARRAY (8-bit) Packeting
+        // **** EIGHT BIT SET (8-bit) Packeting
 
-        public static void NextByteToBoolArray (byte[] bytes, ref int currentByteIndex, out bool[] outValue) {
-            outValue = new bool[BIT_COUNT_OF_BYTE];
-            byte currentByte = bytes[currentByteIndex];
-
-            for (int i = 0; i < BIT_COUNT_OF_BYTE; i++)
-                outValue[i] = (currentByte & 0x01 << i) != 0;
-            currentByteIndex++;
+        public static void NextByteToEightBitSet (byte[] bytes, ref int currentByteIndex, out EightBitSet outValue) {
+            outValue = new ();
+            outValue.NextBytesToParams (bytes, ref currentByteIndex);
         }
 
-        public static byte[] GetDataPacket (bool[] source) {
-            if (source.Length != BIT_COUNT_OF_BYTE)
-                return [0x00];
-
-            byte result = 0x00;
-            for (int i = 0; i < BIT_COUNT_OF_BYTE; i++) {
-                if (source[i]) {
-                    result |= (byte)(0x01 << i);
-                }
-            }
-
-            return [result];
+        public static byte[] ToByteArray (EightBitSet source) {
+            return source.ToByteArray ();
         }
 
         // **** BYTE (8-bit) Packeting
@@ -62,7 +42,7 @@ namespace JabaUtilsLibrary.Data.Packeting {
             currentByteIndex++;
         }
 
-        public static byte[] GetDataPacket (byte source) {
+        public static byte[] ToByteArray (byte source) {
             return [source];
         }
 
@@ -73,7 +53,7 @@ namespace JabaUtilsLibrary.Data.Packeting {
             currentByteIndex += sizeof (ulong);
         }
 
-        public static byte[] GetDataPacket (ulong source) {
+        public static byte[] ToByteArray (ulong source) {
             return BitConverter.GetBytes (source);
         }
 
@@ -84,7 +64,7 @@ namespace JabaUtilsLibrary.Data.Packeting {
             currentByteIndex += sizeof (long);
         }
 
-        public static byte[] GetDataPacket (long source) {
+        public static byte[] ToByteArray (long source) {
             return BitConverter.GetBytes (source);
         }
 
@@ -95,7 +75,7 @@ namespace JabaUtilsLibrary.Data.Packeting {
             currentByteIndex += sizeof (uint);
         }
 
-        public static byte[] GetDataPacket (uint source) {
+        public static byte[] ToByteArray (uint source) {
             return BitConverter.GetBytes (source);
         }
 
@@ -106,7 +86,7 @@ namespace JabaUtilsLibrary.Data.Packeting {
             currentByteIndex += sizeof (int);
         }
 
-        public static byte[] GetDataPacket (int source) {
+        public static byte[] ToByteArray (int source) {
             return BitConverter.GetBytes (source);
         }
 
@@ -117,7 +97,7 @@ namespace JabaUtilsLibrary.Data.Packeting {
             currentByteIndex += sizeof (ushort);
         }
 
-        public static byte[] GetDataPacket (ushort source) {
+        public static byte[] ToByteArray (ushort source) {
             return BitConverter.GetBytes (source);
         }
 
@@ -128,7 +108,7 @@ namespace JabaUtilsLibrary.Data.Packeting {
             currentByteIndex += sizeof (short);
         }
 
-        public static byte[] GetDataPacket (short source) {
+        public static byte[] ToByteArray (short source) {
             return BitConverter.GetBytes (source);
         }
 
@@ -139,7 +119,7 @@ namespace JabaUtilsLibrary.Data.Packeting {
             currentByteIndex += sizeof (double);
         }
 
-        public static byte[] GetDataPacket (double source) {
+        public static byte[] ToByteArray (double source) {
             return BitConverter.GetBytes (source);
         }
 
@@ -150,7 +130,7 @@ namespace JabaUtilsLibrary.Data.Packeting {
             currentByteIndex += sizeof (float);
         }
 
-        public static byte[] GetDataPacket (float source) {
+        public static byte[] ToByteArray (float source) {
             return BitConverter.GetBytes (source);
         }
 
@@ -174,12 +154,12 @@ namespace JabaUtilsLibrary.Data.Packeting {
             }
         }
 
-        public static byte[] GetDataPacket (string source) {
+        public static byte[] ToByteArray (string source) {
             if (string.IsNullOrEmpty (source))
-                return [.. GetDataPacket(0)];
+                return [.. ToByteArray (0)];
 
             byte[] stringBytes = Encoding.UTF8.GetBytes (source);
-            byte[] lengthBytes = GetDataPacket (stringBytes.Length);
+            byte[] lengthBytes = ToByteArray (stringBytes.Length);
             return [.. lengthBytes, .. stringBytes];
         }
 
