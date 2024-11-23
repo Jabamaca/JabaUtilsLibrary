@@ -1,12 +1,11 @@
-﻿using JabaUtilsLibrary.Data;
-using JabaUtilsLibrary.Data.Packeting;
+﻿using JabaUtilsLibrary.Data.BitConvertion;
 
 namespace JabaUtilsLibrary_UnitTest.Tests.Data {
-    public class DataTest_Packeting {
+    public class DataTest_BitConvertion {
 
         #region Testing Methods
 
-        private static void TestMethod_StringPacketing (string sampleData) {
+        private static void TestMethod_StringBitConvertion (string sampleData) {
             byte[] samplePacket = [.. BitConvertionUtils.ToByteArray (sampleData)];
             int currentPacketIndex = 0;
             BitConvertionUtils.NextBytesToString (samplePacket, ref currentPacketIndex, out string copyData);
@@ -24,7 +23,7 @@ namespace JabaUtilsLibrary_UnitTest.Tests.Data {
         #region Main Test
 
         [Fact]
-        public void DataTest_Packeting_BoolArray () {
+        public void DataTest_BitConvertion_BoolArray () {
             bool[] sampleBitSet = [true, false, false, true,
                 true, true, false, true];
             EightBitSet sampleData = EightBitSet.FromBoolArray (sampleBitSet);
@@ -38,7 +37,7 @@ namespace JabaUtilsLibrary_UnitTest.Tests.Data {
         }
 
         [Fact]
-        public void DataTest_Packeting_Byte () {
+        public void DataTest_BitConvertion_Byte () {
             byte sampleData = 0xAD;
 
             byte[] samplePacket = [.. BitConvertionUtils.ToByteArray (sampleData)];
@@ -50,7 +49,7 @@ namespace JabaUtilsLibrary_UnitTest.Tests.Data {
         }
 
         [Fact]
-        public void DataTest_Packeting_ULong () {
+        public void DataTest_BitConvertion_ULong () {
             ulong sampleData = 1544432uL;
 
             byte[] samplePacket = [.. BitConvertionUtils.ToByteArray (sampleData)];
@@ -62,7 +61,7 @@ namespace JabaUtilsLibrary_UnitTest.Tests.Data {
         }
 
         [Fact]
-        public void DataTest_Packeting_Long () {
+        public void DataTest_BitConvertion_Long () {
             long sampleData = -66699432L;
 
             byte[] samplePacket = [.. BitConvertionUtils.ToByteArray (sampleData)];
@@ -74,7 +73,7 @@ namespace JabaUtilsLibrary_UnitTest.Tests.Data {
         }
 
         [Fact]
-        public void DataTest_Packeting_UInt () {
+        public void DataTest_BitConvertion_UInt () {
             uint sampleData = 4365u;
 
             byte[] samplePacket = [.. BitConvertionUtils.ToByteArray (sampleData)];
@@ -98,7 +97,7 @@ namespace JabaUtilsLibrary_UnitTest.Tests.Data {
         }
 
         [Fact]
-        public void DataTest_Packeting_UShort () {
+        public void DataTest_BitConvertion_UShort () {
             ushort sampleData = 991;
 
             byte[] samplePacket = [.. BitConvertionUtils.ToByteArray (sampleData)];
@@ -110,7 +109,7 @@ namespace JabaUtilsLibrary_UnitTest.Tests.Data {
         }
 
         [Fact]
-        public void DataTest_Packeting_Short () {
+        public void DataTest_BitConvertion_Short () {
             short sampleData = -1299;
 
             byte[] samplePacket = [.. BitConvertionUtils.ToByteArray (sampleData)];
@@ -122,7 +121,7 @@ namespace JabaUtilsLibrary_UnitTest.Tests.Data {
         }
 
         [Fact]
-        public void DataTest_Packeting_Double () {
+        public void DataTest_BitConvertion_Double () {
             double sampleData = -1299.66812621d;
             
             byte[] samplePacket = [.. BitConvertionUtils.ToByteArray (sampleData)];
@@ -134,7 +133,7 @@ namespace JabaUtilsLibrary_UnitTest.Tests.Data {
         }
 
         [Fact]
-        public void DataTest_Packeting_Float () {
+        public void DataTest_BitConvertion_Float () {
             float sampleData = -12996.668f;
 
             byte[] samplePacket = [.. BitConvertionUtils.ToByteArray (sampleData)];
@@ -146,18 +145,18 @@ namespace JabaUtilsLibrary_UnitTest.Tests.Data {
         }
 
         [Fact]
-        public void DataTest_Packeting_String_Full () {
-            TestMethod_StringPacketing ("HELLO WORLD!!!");
+        public void DataTest_BitConvertion_String_Full () {
+            TestMethod_StringBitConvertion ("HELLO WORLD!!!");
         }
 
         [Fact]
-        public void DataTest_Packeting_String_Empty () {
-            TestMethod_StringPacketing ("");
+        public void DataTest_BitConvertion_String_Empty () {
+            TestMethod_StringBitConvertion ("");
         }
 
         [Fact]
-        public void DataTest_Packeting_String_Null () {
-            TestMethod_StringPacketing (null);
+        public void DataTest_BitConvertion_String_Null () {
+            TestMethod_StringBitConvertion (null);
         }
 
         #endregion
