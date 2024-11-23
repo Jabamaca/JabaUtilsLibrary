@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace JabaUtilsLibrary.Data.Packeting {
+namespace JabaUtilsLibrary.Data.BitConvertion {
     public static class BitConvertionUtils {
 
         #region Methods

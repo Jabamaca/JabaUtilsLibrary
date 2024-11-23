@@ -1,4 +1,4 @@
-﻿namespace JabaUtilsLibrary.Data.Packeting {
+﻿namespace JabaUtilsLibrary.Data.BitConvertion {
     public class EightBitSet : IBitConvertion {
 
         #region Properties
