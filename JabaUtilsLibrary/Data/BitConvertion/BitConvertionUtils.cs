@@ -24,7 +24,7 @@ namespace JabaUtilsLibrary.Data.BitConvertion {
 
         #region Conversion Methods
 
-        // **** EIGHT BIT SET (8-bit) Packeting
+        #region EIGHT BIT SET Packeting (8-bit)
 
         public static void NextByteToEightBitSet (byte[] bytes, ref int currentByteIndex, out EightBitSet outValue) {
             outValue = new ();
@@ -35,7 +35,9 @@ namespace JabaUtilsLibrary.Data.BitConvertion {
             return source.ToByteArray ();
         }
 
-        // **** BYTE (8-bit) Packeting
+        #endregion
+
+        #region BYTE Packeting (8-bit)
 
         public static void NextByte (byte[] bytes, ref int currentByteIndex, out byte outValue) {
             outValue = bytes[currentByteIndex];
@@ -46,7 +48,9 @@ namespace JabaUtilsLibrary.Data.BitConvertion {
             return [source];
         }
 
-        // **** U-LONG (64-bit) Packeting
+        #endregion
+
+        #region U-LONG Packeting (64-bit)
 
         public static void NextBytesToULong (byte[] bytes, ref int currentByteIndex, out ulong outValue) {
             outValue = BitConverter.ToUInt64 (bytes, startIndex: currentByteIndex);
@@ -57,7 +61,9 @@ namespace JabaUtilsLibrary.Data.BitConvertion {
             return BitConverter.GetBytes (source);
         }
 
-        // **** LONG (64-bit) Packeting
+        #endregion
+
+        #region LONG Packeting (64-bit)
 
         public static void NextBytesToLong (byte[] bytes, ref int currentByteIndex, out long outValue) {
             outValue = BitConverter.ToInt64 (bytes, startIndex: currentByteIndex);
@@ -68,7 +74,9 @@ namespace JabaUtilsLibrary.Data.BitConvertion {
             return BitConverter.GetBytes (source);
         }
 
-        // **** U-INT (32-bit) Packeting
+        #endregion
+
+        #region U-INT Packeting (32-bit)
 
         public static void NextBytesToUInt (byte[] bytes, ref int currentByteIndex, out uint outValue) {
             outValue = BitConverter.ToUInt32 (bytes, startIndex: currentByteIndex);
@@ -79,7 +87,9 @@ namespace JabaUtilsLibrary.Data.BitConvertion {
             return BitConverter.GetBytes (source);
         }
 
-        // **** INT (32-bit) Packeting
+        #endregion
+
+        #region INT Packeting (32-bit)
 
         public static void NextBytesToInt (byte[] bytes, ref int currentByteIndex, out int outValue) {
             outValue = BitConverter.ToInt32 (bytes, startIndex: currentByteIndex);
@@ -90,7 +100,9 @@ namespace JabaUtilsLibrary.Data.BitConvertion {
             return BitConverter.GetBytes (source);
         }
 
-        // **** U-SHORT (16-bit) Packeting
+        #endregion
+
+        #region U-SHORT Packeting (16-bit)
 
         public static void NextBytesToUShort (byte[] bytes, ref int currentByteIndex, out ushort outValue) {
             outValue = BitConverter.ToUInt16 (bytes, startIndex: currentByteIndex);
@@ -101,7 +113,9 @@ namespace JabaUtilsLibrary.Data.BitConvertion {
             return BitConverter.GetBytes (source);
         }
 
-        // **** SHORT (16-bit) Packeting
+        #endregion
+
+        #region SHORT Packeting (16-bit)
 
         public static void NextBytesToShort (byte[] bytes, ref int currentByteIndex, out short outValue) {
             outValue = BitConverter.ToInt16 (bytes, startIndex: currentByteIndex);
@@ -112,7 +126,9 @@ namespace JabaUtilsLibrary.Data.BitConvertion {
             return BitConverter.GetBytes (source);
         }
 
-        // **** DOUBLE (64-bit) Packeting
+        #endregion
+
+        #region DOUBLE Packeting (64-bit)
 
         public static void NextBytesToDouble (byte[] bytes, ref int currentByteIndex, out double outValue) {
             outValue = BitConverter.ToDouble (bytes, startIndex: currentByteIndex);
@@ -123,7 +139,9 @@ namespace JabaUtilsLibrary.Data.BitConvertion {
             return BitConverter.GetBytes (source);
         }
 
-        // **** FLOAT (64-bit) Packeting
+        #endregion
+
+        #region FLOAT Packeting (64-bit)
 
         public static void NextBytesToFloat (byte[] bytes, ref int currentByteIndex, out float outValue) {
             outValue = BitConverter.ToSingle (bytes, startIndex: currentByteIndex);
@@ -134,7 +152,9 @@ namespace JabaUtilsLibrary.Data.BitConvertion {
             return BitConverter.GetBytes (source);
         }
 
-        // **** STRING (undefined bit size) Packeting
+        #endregion
+
+        #region STRING Packeting (undefined bit size)
 
         public static int GetPacketSize (string source) {
             if (string.IsNullOrEmpty (source))
@@ -162,6 +182,8 @@ namespace JabaUtilsLibrary.Data.BitConvertion {
             byte[] lengthBytes = ToByteArray (stringBytes.Length);
             return [.. lengthBytes, .. stringBytes];
         }
+
+        #endregion
 
         #endregion
 
