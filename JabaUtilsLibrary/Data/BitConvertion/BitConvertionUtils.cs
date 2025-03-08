@@ -220,11 +220,11 @@ namespace JabaUtilsLibrary.Data.BitConvertion {
                 return false;
             }
 
-            if (currentByteIndex >= bytes.Length) {
-                return false;
-            }
-
             if (stringByteLength > 0) {
+                if (currentByteIndex >= bytes.Length) {
+                    return false;
+                }
+
                 outValue = Encoding.UTF8.GetString (bytes, currentByteIndex, stringByteLength);
                 currentByteIndex += stringByteLength;
             }

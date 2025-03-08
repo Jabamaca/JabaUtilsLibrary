@@ -48,12 +48,17 @@ namespace JabaUtilsLibrary.Data.DataStructs {
                 ;
         }
 
-        public void NextBytesToParams (byte[] bytes, ref int currentByteIndex) {
+        public bool NextBytesToParams (byte[] bytes, ref int currentByteIndex) {
+            if (currentByteIndex >= bytes.Length)
+                return false;
+
             byte currentByte = bytes[currentByteIndex];
 
             for (int i = 0; i < BIT_COUNT_OF_BYTE; i++)
                 bits[i] = (currentByte & 0x01 << i) != 0;
             currentByteIndex++;
+
+            return true;
         }
 
         public byte[] ToByteArray () {

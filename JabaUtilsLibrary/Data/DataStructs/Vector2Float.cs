@@ -73,11 +73,15 @@ namespace JabaUtilsLibrary.Data.DataStructs {
                 ;
         }
 
-        public void NextBytesToParams (byte[] bytes, ref int currentByteIndex) {
+        public bool NextBytesToParams (byte[] bytes, ref int currentByteIndex) {
             // X
-            BitConvertionUtils.NextBytesToFloat (bytes, ref currentByteIndex, out x);
+            if (!BitConvertionUtils.NextBytesToFloat (bytes, ref currentByteIndex, out x))
+                return false;
             // Y
-            BitConvertionUtils.NextBytesToFloat (bytes, ref currentByteIndex, out y);
+            if (!BitConvertionUtils.NextBytesToFloat (bytes, ref currentByteIndex, out y))
+                return false;
+
+            return true;
         }
 
         public byte[] ToByteArray () {
