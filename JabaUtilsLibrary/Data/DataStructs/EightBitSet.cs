@@ -1,4 +1,6 @@
-﻿namespace JabaUtilsLibrary.Data.BitConvertion {
+﻿using JabaUtilsLibrary.Data.BitConvertion;
+
+namespace JabaUtilsLibrary.Data.DataStructs {
     public class EightBitSet : IBitConvertion {
 
         #region Properties
@@ -34,7 +36,7 @@
             if (obj is not EightBitSet other)
                 return false;
 
-            return ArrayUtils.CheckOrderedEquals (this.bits, other.bits);
+            return ArrayUtils.CheckOrderedEquals (bits, other.bits);
         }
 
         #endregion
@@ -42,7 +44,8 @@
         #region Implement IBitConvertion
 
         public int GetByteCount () {
-            return sizeof (byte);
+            return sizeof (byte) // Bits
+                ;
         }
 
         public void NextBytesToParams (byte[] bytes, ref int currentByteIndex) {

@@ -1,4 +1,5 @@
 ﻿using JabaUtilsLibrary.Data.BitConvertion;
+using JabaUtilsLibrary.Data.DataStructs;
 
 namespace JabaUtilsLibrary_UnitTest.Tests.Data {
     public class DataTest_BitConvertion {
@@ -85,7 +86,7 @@ namespace JabaUtilsLibrary_UnitTest.Tests.Data {
         }
 
         [Fact]
-        public void DataTest_Packeting_Int () {
+        public void DataTest_BitConversion_Int () {
             int sampleData = -38453;
 
             byte[] samplePacket = [.. BitConvertionUtils.ToByteArray (sampleData)];
@@ -123,7 +124,7 @@ namespace JabaUtilsLibrary_UnitTest.Tests.Data {
         [Fact]
         public void DataTest_BitConvertion_Double () {
             double sampleData = -1299.66812621d;
-            
+
             byte[] samplePacket = [.. BitConvertionUtils.ToByteArray (sampleData)];
             int currentPacketIndex = 0;
             BitConvertionUtils.NextBytesToDouble (samplePacket, ref currentPacketIndex, out double copyData);

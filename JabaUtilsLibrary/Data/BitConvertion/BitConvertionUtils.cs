@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using JabaUtilsLibrary.Data.DataStructs;
 
 namespace JabaUtilsLibrary.Data.BitConvertion {
     public static class BitConvertionUtils {
@@ -26,9 +27,13 @@ namespace JabaUtilsLibrary.Data.BitConvertion {
 
         #region EIGHT BIT SET Packeting (8-bit)
 
-        public static void NextByteToEightBitSet (byte[] bytes, ref int currentByteIndex, out EightBitSet outValue) {
+        public static bool NextByteToEightBitSet (byte[] bytes, ref int currentByteIndex, out EightBitSet outValue) {
             outValue = new ();
+            if (currentByteIndex >= bytes.Length)
+                return false;
+
             outValue.NextBytesToParams (bytes, ref currentByteIndex);
+            return true;
         }
 
         public static byte[] ToByteArray (EightBitSet source) {
@@ -39,9 +44,14 @@ namespace JabaUtilsLibrary.Data.BitConvertion {
 
         #region BYTE Packeting (8-bit)
 
-        public static void NextByte (byte[] bytes, ref int currentByteIndex, out byte outValue) {
+        public static bool NextByte (byte[] bytes, ref int currentByteIndex, out byte outValue) {
+            outValue = 0x00;
+            if (currentByteIndex >= bytes.Length)
+                return false;
+
             outValue = bytes[currentByteIndex];
             currentByteIndex++;
+            return true;
         }
 
         public static byte[] ToByteArray (byte source) {
@@ -52,9 +62,14 @@ namespace JabaUtilsLibrary.Data.BitConvertion {
 
         #region U-LONG Packeting (64-bit)
 
-        public static void NextBytesToULong (byte[] bytes, ref int currentByteIndex, out ulong outValue) {
+        public static bool NextBytesToULong (byte[] bytes, ref int currentByteIndex, out ulong outValue) {
+            outValue = 0uL;
+            if (currentByteIndex >= bytes.Length)
+                return false;
+
             outValue = BitConverter.ToUInt64 (bytes, startIndex: currentByteIndex);
             currentByteIndex += sizeof (ulong);
+            return true;
         }
 
         public static byte[] ToByteArray (ulong source) {
@@ -65,9 +80,14 @@ namespace JabaUtilsLibrary.Data.BitConvertion {
 
         #region LONG Packeting (64-bit)
 
-        public static void NextBytesToLong (byte[] bytes, ref int currentByteIndex, out long outValue) {
+        public static bool NextBytesToLong (byte[] bytes, ref int currentByteIndex, out long outValue) {
+            outValue = 0L;
+            if (currentByteIndex >= bytes.Length)
+                return false;
+
             outValue = BitConverter.ToInt64 (bytes, startIndex: currentByteIndex);
             currentByteIndex += sizeof (long);
+            return true;
         }
 
         public static byte[] ToByteArray (long source) {
@@ -78,9 +98,14 @@ namespace JabaUtilsLibrary.Data.BitConvertion {
 
         #region U-INT Packeting (32-bit)
 
-        public static void NextBytesToUInt (byte[] bytes, ref int currentByteIndex, out uint outValue) {
+        public static bool NextBytesToUInt (byte[] bytes, ref int currentByteIndex, out uint outValue) {
+            outValue = 0u;
+            if (currentByteIndex >= bytes.Length)
+                return false;
+
             outValue = BitConverter.ToUInt32 (bytes, startIndex: currentByteIndex);
             currentByteIndex += sizeof (uint);
+            return true;
         }
 
         public static byte[] ToByteArray (uint source) {
@@ -91,9 +116,14 @@ namespace JabaUtilsLibrary.Data.BitConvertion {
 
         #region INT Packeting (32-bit)
 
-        public static void NextBytesToInt (byte[] bytes, ref int currentByteIndex, out int outValue) {
+        public static bool NextBytesToInt (byte[] bytes, ref int currentByteIndex, out int outValue) {
+            outValue = 0;
+            if (currentByteIndex >= bytes.Length)
+                return false;
+
             outValue = BitConverter.ToInt32 (bytes, startIndex: currentByteIndex);
             currentByteIndex += sizeof (int);
+            return true;
         }
 
         public static byte[] ToByteArray (int source) {
@@ -104,9 +134,14 @@ namespace JabaUtilsLibrary.Data.BitConvertion {
 
         #region U-SHORT Packeting (16-bit)
 
-        public static void NextBytesToUShort (byte[] bytes, ref int currentByteIndex, out ushort outValue) {
+        public static bool NextBytesToUShort (byte[] bytes, ref int currentByteIndex, out ushort outValue) {
+            outValue = 0;
+            if (currentByteIndex >= bytes.Length)
+                return false;
+
             outValue = BitConverter.ToUInt16 (bytes, startIndex: currentByteIndex);
             currentByteIndex += sizeof (ushort);
+            return true;
         }
 
         public static byte[] ToByteArray (ushort source) {
@@ -117,9 +152,14 @@ namespace JabaUtilsLibrary.Data.BitConvertion {
 
         #region SHORT Packeting (16-bit)
 
-        public static void NextBytesToShort (byte[] bytes, ref int currentByteIndex, out short outValue) {
+        public static bool NextBytesToShort (byte[] bytes, ref int currentByteIndex, out short outValue) {
+            outValue = 0;
+            if (currentByteIndex >= bytes.Length)
+                return false;
+
             outValue = BitConverter.ToInt16 (bytes, startIndex: currentByteIndex);
             currentByteIndex += sizeof (short);
+            return true;
         }
 
         public static byte[] ToByteArray (short source) {
@@ -130,9 +170,14 @@ namespace JabaUtilsLibrary.Data.BitConvertion {
 
         #region DOUBLE Packeting (64-bit)
 
-        public static void NextBytesToDouble (byte[] bytes, ref int currentByteIndex, out double outValue) {
+        public static bool NextBytesToDouble (byte[] bytes, ref int currentByteIndex, out double outValue) {
+            outValue = 0d;
+            if (currentByteIndex >= bytes.Length)
+                return false;
+
             outValue = BitConverter.ToDouble (bytes, startIndex: currentByteIndex);
             currentByteIndex += sizeof (double);
+            return true;
         }
 
         public static byte[] ToByteArray (double source) {
@@ -143,9 +188,14 @@ namespace JabaUtilsLibrary.Data.BitConvertion {
 
         #region FLOAT Packeting (64-bit)
 
-        public static void NextBytesToFloat (byte[] bytes, ref int currentByteIndex, out float outValue) {
+        public static bool NextBytesToFloat (byte[] bytes, ref int currentByteIndex, out float outValue) {
+            outValue = 0f;
+            if (currentByteIndex >= bytes.Length)
+                return false;
+
             outValue = BitConverter.ToSingle (bytes, startIndex: currentByteIndex);
             currentByteIndex += sizeof (float);
+            return true;
         }
 
         public static byte[] ToByteArray (float source) {
@@ -164,14 +214,22 @@ namespace JabaUtilsLibrary.Data.BitConvertion {
             return sizeof (int) + stringBytes.Length;
         }
 
-        public static void NextBytesToString (byte[] bytes, ref int currentByteIndex, out string outValue) {
+        public static bool NextBytesToString (byte[] bytes, ref int currentByteIndex, out string outValue) {
             outValue = "";
-            NextBytesToInt (bytes, ref currentByteIndex, out int stringByteLength);
+            if (!NextBytesToInt (bytes, ref currentByteIndex, out int stringByteLength)) {
+                return false;
+            }
+
+            if (currentByteIndex >= bytes.Length) {
+                return false;
+            }
 
             if (stringByteLength > 0) {
                 outValue = Encoding.UTF8.GetString (bytes, currentByteIndex, stringByteLength);
                 currentByteIndex += stringByteLength;
             }
+
+            return true;
         }
 
         public static byte[] ToByteArray (string source) {
