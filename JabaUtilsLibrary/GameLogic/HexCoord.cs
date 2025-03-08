@@ -15,12 +15,12 @@ namespace JabaUtilsLibrary.GameLogic {
         public static readonly Vector2Int HexRight = new (1, 1);
         public static readonly Vector2Int HexCenter = Vector2Int.Zero ();
 
-        private static readonly Vector2Float HRotationX = new (0.5f, 0.5f);
-        private static readonly Vector2Float HRotationY = new (-1f, 1f);
-        private static readonly Vector2Float VRotationX = new (1f, -1f);
-        private static readonly Vector2Float VRotationY = new (0.5f, 0.5f);
-        private static readonly Vector2Float[] HRotateMatrix = [HRotationX, HRotationY];
-        private static readonly Vector2Float[] VRotateMatrix = [VRotationX, VRotationY];
+        private static readonly Vector2Double HRotationX = new (0.5f, 0.5f);
+        private static readonly Vector2Double HRotationY = new (-1f, 1f);
+        private static readonly Vector2Double VRotationX = new (1f, -1f);
+        private static readonly Vector2Double VRotationY = new (0.5f, 0.5f);
+        private static readonly Vector2Double[] HRotateMatrix = [HRotationX, HRotationY];
+        private static readonly Vector2Double[] VRotateMatrix = [VRotationX, VRotationY];
 
         #endregion
 
@@ -96,21 +96,21 @@ namespace JabaUtilsLibrary.GameLogic {
             return HexCoordsInRangeFromHexCoord (HexCenter, r);
         }
 
-        public static Vector2Float HexCoordHorizontalRenderPosition (Vector2Int hexPos, Vector2Float unitSize) {
+        public static Vector2Double HexCoordHorizontalRenderPosition (Vector2Int hexPos, Vector2Double unitSize) {
             return HexCoordRenderPosition (hexPos, unitSize, HRotateMatrix);
         }
 
-        public static Vector2Float HexCoordVerticalRenderPosition (Vector2Int hexPos, Vector2Float unitSize) {
+        public static Vector2Double HexCoordVerticalRenderPosition (Vector2Int hexPos, Vector2Double unitSize) {
             return HexCoordRenderPosition (hexPos, unitSize, VRotateMatrix);
         }
 
-        private static Vector2Float HexCoordRenderPosition (Vector2Int hexPos, Vector2Float unitSize, Vector2Float[] rotationMatrix) {
-            Vector2Float xR = rotationMatrix[0];
-            Vector2Float yR = rotationMatrix[1];
-            float xRPos = (xR.x * hexPos.x + xR.y * hexPos.y) * unitSize.x;
-            float yRPos = (yR.x * hexPos.x + yR.y * hexPos.y) * unitSize.y;
+        private static Vector2Double HexCoordRenderPosition (Vector2Int hexPos, Vector2Double unitSize, Vector2Double[] rotationMatrix) {
+            Vector2Double xR = rotationMatrix[0];
+            Vector2Double yR = rotationMatrix[1];
+            double xRPos = (xR.x * hexPos.x + xR.y * hexPos.y) * unitSize.x;
+            double yRPos = (yR.x * hexPos.x + yR.y * hexPos.y) * unitSize.y;
 
-            return new Vector2Float (xRPos, yRPos);
+            return new Vector2Double (xRPos, yRPos);
         }
 
         #endregion

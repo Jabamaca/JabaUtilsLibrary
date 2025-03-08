@@ -27,6 +27,8 @@ namespace JabaUtilsLibrary_UnitTest {
 
             testB.a = 69;
             Assert.NotEqual (testA.a, testB.a);
+
+            UnityEngine.Vector2 test = new (5f, 6f);
         }
 
     }

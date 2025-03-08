@@ -1,62 +1,72 @@
-﻿using System;
-using JabaUtilsLibrary.Data.BitConvertion;
+﻿using JabaUtilsLibrary.Data.BitConvertion;
+using System;
 
 namespace JabaUtilsLibrary.Data.DataStructs {
-    public class Vector2Int : IBitConvertion, ICloneable {
+    public class Vector2Double : IBitConvertion, ICloneable {
 
         #region Properties
 
-        public int x = 0;
-        public int y = 0;
+        public double x = 0f;
+        public double y = 0f;
 
         #endregion
 
         #region Constructors
 
-        public Vector2Int () {
-            x = 0;
-            y = 0;
+        public Vector2Double () {
+            x = 0f;
+            y = 0f;
         }
 
-        public Vector2Int (int x, int y) {
+        public Vector2Double (double x, double y) {
             this.x = x;
             this.y = y;
+        }
+
+        public Vector2Double (Vector2Int vi) {
+            x = vi.x;
+            y = vi.y;
         }
 
         #endregion
 
         #region Methods
 
-        #region Modifier Methods
+        #region Modify Methods
 
-        public void Add (int x, int y) {
+        public void Add (double x, double y) {
             this.x += x;
             this.y += y;
         }
 
-        public void Add (Vector2Int other) {
+        public void Add (Vector2Double other) {
             Add (other.x, other.y);
         }
 
-        public void Subtract (int x, int y) {
+        public void Subtract (double x, double y) {
             this.x -= x;
             this.y -= y;
         }
 
-        public void Subtract (Vector2Int other) {
+        public void Subtract (Vector2Double other) {
             Subtract (other.x, other.y);
         }
 
-        public void ScalarMultBy (int mult) {
+        public void ScalarMultBy (double mult) {
             x *= mult;
             y *= mult;
+        }
+
+        public void Normalize () {
+            double mag = Magnitude ();
+            ScalarMultBy (1f / mag);
         }
 
         #endregion
 
         #region Getter Methods
 
-        public int SqrMagnitude () {
+        public double SqrMagnitude () {
             return (x * x) + (y * y);
         }
 
@@ -64,12 +74,22 @@ namespace JabaUtilsLibrary.Data.DataStructs {
             return Math.Sqrt (SqrMagnitude ());
         }
 
+        public Vector2Double Normalized () {
+            Vector2Double clone = (Vector2Double)Clone ();
+            clone.Normalize ();
+            return clone;
+        }
+
         #endregion
 
         #region Abstract Methods
 
-        public static Vector2Int Zero () {
-            return new Vector2Int (0, 0);
+        public static Vector2Double Zero () {
+            return new Vector2Double (0f, 0f);
+        }
+
+        public static double DotProduct (Vector2Double a, Vector2Double b) {
+            return (a.x * b.x) + (a.y * b.y);
         }
 
         #endregion
@@ -79,17 +99,17 @@ namespace JabaUtilsLibrary.Data.DataStructs {
         #region Implement IBitConvertion
 
         public int GetByteCount () {
-            return sizeof (int) // X
-                + sizeof (int) // Y
+            return sizeof (double) // X
+                + sizeof (double) // Y
                 ;
         }
 
         public bool NextBytesToParams (byte[] bytes, ref int currentByteIndex) {
             // X
-            if (!BitConvertionUtils.NextBytesToInt (bytes, ref currentByteIndex, out x))
+            if (!BitConvertionUtils.NextBytesToDouble (bytes, ref currentByteIndex, out x))
                 return false;
             // Y
-            if (!BitConvertionUtils.NextBytesToInt (bytes, ref currentByteIndex, out y))
+            if (!BitConvertionUtils.NextBytesToDouble (bytes, ref currentByteIndex, out y))
                 return false;
 
             return true;
@@ -124,7 +144,7 @@ namespace JabaUtilsLibrary.Data.DataStructs {
         }
 
         public override bool Equals (object obj) {
-            if (obj is not Vector2Int other)
+            if (obj is not Vector2Double other)
                 return false;
 
             return this.x.Equals (other.x)
@@ -135,20 +155,20 @@ namespace JabaUtilsLibrary.Data.DataStructs {
 
         #region Override Operators
 
-        public static Vector2Int operator - (Vector2Int v) {
-            return new Vector2Int (-v.x, -v.y);
+        public static Vector2Double operator - (Vector2Double v) {
+            return new Vector2Double (-v.x, -v.y);
         }
 
-        public static Vector2Int operator + (Vector2Int a, Vector2Int b) {
-            return new Vector2Int (a.x + b.x, a.y + b.y);
+        public static Vector2Double operator + (Vector2Double a, Vector2Double b) {
+            return new Vector2Double (a.x + b.x, a.y + b.y);
         }
 
-        public static Vector2Int operator - (Vector2Int a, Vector2Int b) {
-            return new Vector2Int (a.x - b.x, a.y - b.y);
+        public static Vector2Double operator - (Vector2Double a, Vector2Double b) {
+            return new Vector2Double (a.x - b.x, a.y - b.y);
         }
 
-        public static Vector2Int operator * (Vector2Int v, int mult) {
-            return new Vector2Int (v.x * mult, v.y * mult);
+        public static Vector2Double operator * (Vector2Double v, int mult) {
+            return new Vector2Double (v.x * mult, v.y * mult);
         }
 
         #endregion

@@ -11,15 +11,15 @@ namespace JabaUtilsLibrary_UnitTest.Tests.Data {
             int currentByteIndex = 0;
             Assert.True (BitConvertionUtils.NextBytesToString (sampleBytes, ref currentByteIndex, out string copyData));
 
-            // Excess Read ERROR Detection.
-            Assert.False (BitConvertionUtils.NextBytesToString (sampleBytes, ref currentByteIndex, out _));
-
             if (string.IsNullOrEmpty (sampleData)) {
                 Assert.True (string.IsNullOrEmpty (copyData));
             } else {
                 Assert.Equal (copyData, sampleData);
             }
             Assert.Equal (BitConvertionUtils.GetPacketSize (sampleData), currentByteIndex);
+
+            // Excess Read ERROR Detection.
+            Assert.False (BitConvertionUtils.NextBytesToString (sampleBytes, ref currentByteIndex, out _));
         }
 
         #endregion
@@ -36,11 +36,11 @@ namespace JabaUtilsLibrary_UnitTest.Tests.Data {
             int currentByteIndex = 0;
             Assert.True (BitConvertionUtils.NextByteToEightBitSet (sampleBytes, ref currentByteIndex, out EightBitSet copyData));
 
-            // Excess Read ERROR Detection.
-            Assert.False (BitConvertionUtils.NextByteToEightBitSet (sampleBytes, ref currentByteIndex, out _));
-
             Assert.True (copyData.Equals (sampleData));
             Assert.Equal (sizeof (byte), currentByteIndex);
+
+            // Excess Read ERROR Detection.
+            Assert.False (BitConvertionUtils.NextByteToEightBitSet (sampleBytes, ref currentByteIndex, out _));
         }
 
         [Fact]
@@ -51,11 +51,11 @@ namespace JabaUtilsLibrary_UnitTest.Tests.Data {
             int currentByteIndex = 0;
             Assert.True (BitConvertionUtils.NextByte (sampleBytes, ref currentByteIndex, out byte copyData));
 
-            // Excess Read ERROR Detection.
-            Assert.False (BitConvertionUtils.NextByte (sampleBytes, ref currentByteIndex, out _));
-
             Assert.True (copyData.Equals (sampleData));
             Assert.Equal (sizeof (byte), currentByteIndex);
+
+            // Excess Read ERROR Detection.
+            Assert.False (BitConvertionUtils.NextByte (sampleBytes, ref currentByteIndex, out _));
         }
 
         [Fact]
@@ -66,11 +66,11 @@ namespace JabaUtilsLibrary_UnitTest.Tests.Data {
             int currentByteIndex = 0;
             Assert.True (BitConvertionUtils.NextBytesToULong (sampleBytes, ref currentByteIndex, out ulong copyData));
 
-            // Excess Read ERROR Detection.
-            Assert.False (BitConvertionUtils.NextBytesToULong (sampleBytes, ref currentByteIndex, out _));
-
             Assert.True (copyData.Equals (sampleData));
             Assert.Equal (sizeof (ulong), currentByteIndex);
+
+            // Excess Read ERROR Detection.
+            Assert.False (BitConvertionUtils.NextBytesToULong (sampleBytes, ref currentByteIndex, out _));
         }
 
         [Fact]
@@ -81,11 +81,11 @@ namespace JabaUtilsLibrary_UnitTest.Tests.Data {
             int currentByteIndex = 0;
             Assert.True (BitConvertionUtils.NextBytesToLong (sampleBytes, ref currentByteIndex, out long copyData));
 
-            // Excess Read ERROR Detection.
-            Assert.False (BitConvertionUtils.NextBytesToLong (sampleBytes, ref currentByteIndex, out _));
-
             Assert.True (copyData.Equals (sampleData));
             Assert.Equal (sizeof (long), currentByteIndex);
+
+            // Excess Read ERROR Detection.
+            Assert.False (BitConvertionUtils.NextBytesToLong (sampleBytes, ref currentByteIndex, out _));
         }
 
         [Fact]
@@ -96,11 +96,11 @@ namespace JabaUtilsLibrary_UnitTest.Tests.Data {
             int currentByteIndex = 0;
             Assert.True (BitConvertionUtils.NextBytesToUInt (sampleBytes, ref currentByteIndex, out uint copyData));
 
-            // Excess Read ERROR Detection.
-            Assert.False (BitConvertionUtils.NextBytesToUInt (sampleBytes, ref currentByteIndex, out _));
-
             Assert.True (copyData.Equals (sampleData));
             Assert.Equal (sizeof (uint), currentByteIndex);
+
+            // Excess Read ERROR Detection.
+            Assert.False (BitConvertionUtils.NextBytesToUInt (sampleBytes, ref currentByteIndex, out _));
         }
 
         [Fact]
@@ -111,11 +111,11 @@ namespace JabaUtilsLibrary_UnitTest.Tests.Data {
             int currentByteIndex = 0;
             Assert.True (BitConvertionUtils.NextBytesToInt (sampleBytes, ref currentByteIndex, out int copyData));
 
-            // Excess Read ERROR Detection.
-            Assert.False (BitConvertionUtils.NextBytesToInt (sampleBytes, ref currentByteIndex, out _));
-
             Assert.True (copyData.Equals (sampleData));
             Assert.Equal (sizeof (int), currentByteIndex);
+
+            // Excess Read ERROR Detection.
+            Assert.False (BitConvertionUtils.NextBytesToInt (sampleBytes, ref currentByteIndex, out _));
         }
 
         [Fact]
@@ -126,11 +126,11 @@ namespace JabaUtilsLibrary_UnitTest.Tests.Data {
             int currentByteIndex = 0;
             Assert.True (BitConvertionUtils.NextBytesToUShort (sampleBytes, ref currentByteIndex, out ushort copyData));
 
-            // Excess Read ERROR Detection.
-            Assert.False (BitConvertionUtils.NextBytesToUShort (sampleBytes, ref currentByteIndex, out _));
-
             Assert.True (copyData.Equals (sampleData));
             Assert.Equal (sizeof (ushort), currentByteIndex);
+
+            // Excess Read ERROR Detection.
+            Assert.False (BitConvertionUtils.NextBytesToUShort (sampleBytes, ref currentByteIndex, out _));
         }
 
         [Fact]
@@ -141,11 +141,11 @@ namespace JabaUtilsLibrary_UnitTest.Tests.Data {
             int currentByteIndex = 0;
             Assert.True (BitConvertionUtils.NextBytesToShort (sampleBytes, ref currentByteIndex, out short copyData));
 
-            // Excess Read ERROR Detection.
-            Assert.False (BitConvertionUtils.NextBytesToShort (sampleBytes, ref currentByteIndex, out _));
-
             Assert.True (copyData.Equals (sampleData));
             Assert.Equal (sizeof (short), currentByteIndex);
+
+            // Excess Read ERROR Detection.
+            Assert.False (BitConvertionUtils.NextBytesToShort (sampleBytes, ref currentByteIndex, out _));
         }
 
         [Fact]
@@ -156,11 +156,11 @@ namespace JabaUtilsLibrary_UnitTest.Tests.Data {
             int currentByteIndex = 0;
             Assert.True (BitConvertionUtils.NextBytesToDouble (sampleBytes, ref currentByteIndex, out double copyData));
 
-            // Excess Read ERROR Detection.
-            Assert.False (BitConvertionUtils.NextBytesToDouble (sampleBytes, ref currentByteIndex, out _));
-
             Assert.True (copyData.Equals (sampleData));
             Assert.Equal (sizeof (double), currentByteIndex);
+
+            // Excess Read ERROR Detection.
+            Assert.False (BitConvertionUtils.NextBytesToDouble (sampleBytes, ref currentByteIndex, out _));
         }
 
         [Fact]
@@ -171,11 +171,11 @@ namespace JabaUtilsLibrary_UnitTest.Tests.Data {
             int currentByteIndex = 0;
             Assert.True (BitConvertionUtils.NextBytesToFloat (sampleBytes, ref currentByteIndex, out float copyData));
 
-            // Excess Read ERROR Detection.
-            Assert.False (BitConvertionUtils.NextBytesToFloat (sampleBytes, ref currentByteIndex, out _));
-
             Assert.True (copyData.Equals (sampleData));
             Assert.Equal (sizeof (float), currentByteIndex);
+
+            // Excess Read ERROR Detection.
+            Assert.False (BitConvertionUtils.NextBytesToFloat (sampleBytes, ref currentByteIndex, out _));
         }
 
         [Fact]
