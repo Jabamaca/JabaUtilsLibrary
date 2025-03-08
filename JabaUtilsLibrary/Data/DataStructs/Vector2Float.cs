@@ -2,74 +2,94 @@
 using System;
 
 namespace JabaUtilsLibrary.Data.DataStructs {
-    public class Vector2Int : IBitConvertion, ICloneable {
+    public class Vector2Float : IBitConvertion, ICloneable {
 
         #region Properties
 
-        public int x = 0;
-        public int y = 0;
+        public float x = 0f;
+        public float y = 0f;
 
         #endregion
 
         #region Constructors
 
-        public Vector2Int () {
-            x = 0;
-            y = 0;
+        public Vector2Float () {
+            x = 0f;
+            y = 0f;
         }
 
-        public Vector2Int (int x, int y) {
+        public Vector2Float (float x, float y) {
             this.x = x;
             this.y = y;
+        }
+
+        public Vector2Float (Vector2Int vi) {
+            x = vi.x;
+            y = vi.y;
         }
 
         #endregion
 
         #region Methods
 
-        #region Modifier Methods
+        #region Modify Methods
 
-        public void Add (int x, int y) {
+        public void Add (float x, float y) {
             this.x += x;
             this.y += y;
         }
 
-        public void Add (Vector2Int other) {
+        public void Add (Vector2Float other) {
             Add (other.x, other.y);
         }
 
-        public void Subtract (int x, int y) {
+        public void Subtract (float x, float y) {
             this.x -= x;
             this.y -= y;
         }
 
-        public void Subtract (Vector2Int other) {
+        public void Subtract (Vector2Float other) {
             Subtract (other.x, other.y);
         }
 
-        public void ScalarMultBy (int scale) {
+        public void ScalarMultBy (float scale) {
             x *= scale;
             y *= scale;
+        }
+
+        public void Normalize () {
+            float mag = Magnitude ();
+            ScalarMultBy (1f / mag);
         }
 
         #endregion
 
         #region Getter Methods
 
-        public int SqrMagnitude () {
+        public float SqrMagnitude () {
             return (x * x) + (y * y);
         }
 
-        public double Magnitude () {
-            return Math.Sqrt (SqrMagnitude ());
+        public float Magnitude () {
+            return MathF.Sqrt (SqrMagnitude ());
+        }
+
+        public Vector2Float Normalized () {
+            Vector2Float clone = (Vector2Float)Clone ();
+            clone.Normalize ();
+            return clone;
         }
 
         #endregion
 
         #region Abstract Methods
 
-        public static Vector2Int Zero () {
-            return new Vector2Int (0, 0);
+        public static Vector2Float Zero () {
+            return new Vector2Float (0f, 0f);
+        }
+
+        public static float DotProduct (Vector2Float a, Vector2Float b) {
+            return (a.x * b.x) + (a.y * b.y);
         }
 
         #endregion
@@ -79,17 +99,17 @@ namespace JabaUtilsLibrary.Data.DataStructs {
         #region Implement IBitConvertion
 
         public int GetByteCount () {
-            return sizeof (int) // X
-                + sizeof (int) // Y
+            return sizeof (float) // X
+                + sizeof (float) // Y
                 ;
         }
 
         public bool NextBytesToParams (byte[] bytes, ref int currentByteIndex) {
             // X
-            if (!BitConvertionUtils.NextBytesToInt (bytes, ref currentByteIndex, out x))
+            if (!BitConvertionUtils.NextBytesToFloat (bytes, ref currentByteIndex, out x))
                 return false;
             // Y
-            if (!BitConvertionUtils.NextBytesToInt (bytes, ref currentByteIndex, out y))
+            if (!BitConvertionUtils.NextBytesToFloat (bytes, ref currentByteIndex, out y))
                 return false;
 
             return true;
@@ -124,7 +144,7 @@ namespace JabaUtilsLibrary.Data.DataStructs {
         }
 
         public override bool Equals (object obj) {
-            if (obj is not Vector2Int other)
+            if (obj is not Vector2Float other)
                 return false;
 
             return this.x.Equals (other.x)
@@ -135,20 +155,20 @@ namespace JabaUtilsLibrary.Data.DataStructs {
 
         #region Override Operators
 
-        public static Vector2Int operator - (Vector2Int v) {
-            return new Vector2Int (-v.x, -v.y);
+        public static Vector2Float operator - (Vector2Float v) {
+            return new Vector2Float (-v.x, -v.y);
         }
 
-        public static Vector2Int operator + (Vector2Int a, Vector2Int b) {
-            return new Vector2Int (a.x + b.x, a.y + b.y);
+        public static Vector2Float operator + (Vector2Float a, Vector2Float b) {
+            return new Vector2Float (a.x + b.x, a.y + b.y);
         }
 
-        public static Vector2Int operator - (Vector2Int a, Vector2Int b) {
-            return new Vector2Int (a.x - b.x, a.y - b.y);
+        public static Vector2Float operator - (Vector2Float a, Vector2Float b) {
+            return new Vector2Float (a.x - b.x, a.y - b.y);
         }
 
-        public static Vector2Int operator * (Vector2Int v, int scale) {
-            return new Vector2Int (v.x * scale, v.y * scale);
+        public static Vector2Float operator * (Vector2Float v, int scale) {
+            return new Vector2Float (v.x * scale, v.y * scale);
         }
 
         #endregion

@@ -52,9 +52,9 @@ namespace JabaUtilsLibrary.Data.DataStructs {
             Subtract (other.x, other.y);
         }
 
-        public void ScalarMultBy (double mult) {
-            x *= mult;
-            y *= mult;
+        public void ScalarMultBy (double scale) {
+            x *= scale;
+            y *= scale;
         }
 
         public void Normalize () {
@@ -167,8 +167,8 @@ namespace JabaUtilsLibrary.Data.DataStructs {
             return new Vector2Double (a.x - b.x, a.y - b.y);
         }
 
-        public static Vector2Double operator * (Vector2Double v, int mult) {
-            return new Vector2Double (v.x * mult, v.y * mult);
+        public static Vector2Double operator * (Vector2Double v, int scale) {
+            return new Vector2Double (v.x * scale, v.y * scale);
         }
 
         #endregion
