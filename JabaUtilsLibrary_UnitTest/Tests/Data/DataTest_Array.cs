@@ -30,6 +30,11 @@ namespace JabaUtilsLibrary_UnitTest.Tests.Data {
         #region Main Tests
 
         [Fact]
+        public void DataTest_List_CheckEquals_Different () {
+            Assert.False (ArrayUtils.CheckOrderedEquals (sampleStringArray, sampleStringArrayWithNull));
+        }
+
+        [Fact]
         public void DataTest_Array_CheckOrderedEquals_Full () {
             TestMethod_CheckOrderedEquals (sampleStringArray);
         }

@@ -1,13 +1,20 @@
-﻿using JabaUtilsLibrary.Data.BitConvertion;
+﻿using JabaUtilsLibrary.Data;
+using JabaUtilsLibrary.Data.BitConvertion;
 using JabaUtilsLibrary.Data.DataStructs;
+using System.Collections.Generic;
 
 namespace JabaUtilsLibrary_UnitTest.Tests.Data {
     public class DataTest_BitConvertion {
 
+        #region Sample Data
+
+        #endregion
+
         #region Testing Methods
 
-        private static void TestMethod_StringBitConvertion (string sampleData) {
-            byte[] sampleBytes = [.. BitConvertionUtils.ToByteArray (sampleData)];
+        private static void TestMethod_StringBitConvertion (string sampleData, StringFormatEnum stringFormat) {
+            byte[] sampleBytes = [.. BitConvertionUtils.ToByteArray (sampleData, stringFormat)];
+
             int currentByteIndex = 0;
             Assert.True (BitConvertionUtils.NextBytesToString (sampleBytes, ref currentByteIndex, out string copyData));
 
@@ -16,7 +23,7 @@ namespace JabaUtilsLibrary_UnitTest.Tests.Data {
             } else {
                 Assert.Equal (copyData, sampleData);
             }
-            Assert.Equal (BitConvertionUtils.GetPacketSize (sampleData), currentByteIndex);
+            Assert.Equal (BitConvertionUtils.GetByteCount (sampleData, stringFormat), currentByteIndex);
 
             // Excess Read ERROR Detection.
             Assert.False (BitConvertionUtils.NextBytesToString (sampleBytes, ref currentByteIndex, out _));
@@ -180,17 +187,109 @@ namespace JabaUtilsLibrary_UnitTest.Tests.Data {
 
         [Fact]
         public void DataTest_BitConvertion_String_Full () {
-            TestMethod_StringBitConvertion ("HELLO WORLD!!!");
+            TestMethod_StringBitConvertion ("HELLO WORLD!!!", StringFormatEnum.UTF_8);
         }
 
         [Fact]
         public void DataTest_BitConvertion_String_Empty () {
-            TestMethod_StringBitConvertion ("");
+            TestMethod_StringBitConvertion ("", StringFormatEnum.UTF_32);
         }
 
         [Fact]
         public void DataTest_BitConvertion_String_Null () {
-            TestMethod_StringBitConvertion (null);
+            TestMethod_StringBitConvertion (null, StringFormatEnum.UNICODE);
+        }
+
+        [Fact]
+        public void DataTest_BitConvertion_Array_Full () {
+            
+            string[] sampleData = ["alpha", "beta", "gamma", "delta", "epsilon"];
+            StringFormatEnum stringFormat = StringFormatEnum.UTF_16;
+            int byteCountFunc (string m) {
+                return BitConvertionUtils.GetByteCount (m, stringFormat);
+            }
+            byte[] toByteArrayFunc (string m) {
+                return BitConvertionUtils.ToByteArray (m, stringFormat);
+            }
+
+            byte[] sampleBytes = BitConvertionUtils.ToByteArray (sampleData, byteCountFunc, toByteArrayFunc);
+            int currentByteIndex = 0;
+            Assert.True (BitConvertionUtils.NextBytesToArray (sampleBytes, ref currentByteIndex, out string[] copyData, BitConvertionUtils.NextBytesToString));
+
+            Assert.True (ArrayUtils.CheckOrderedEquals (copyData, sampleData));
+            Assert.Equal (BitConvertionUtils.GetByteCount (sampleData, byteCountFunc), currentByteIndex);
+
+            // Excess Read ERROR Detection.
+            Assert.False (BitConvertionUtils.NextBytesToArray (sampleBytes, ref currentByteIndex, out string[] _, BitConvertionUtils.NextBytesToString));
+        }
+
+        [Fact]
+        public void DataTest_BitConvertion_Array_NonFull () {
+
+            string[] sampleData = ["alpha", null, "gamma", null, "epsilon", null, null, "theta", "iota", null];
+            StringFormatEnum stringFormat = StringFormatEnum.UTF_8;
+            int byteCountFunc (string m) {
+                return BitConvertionUtils.GetByteCount (m, stringFormat);
+            }
+            byte[] toByteArrayFunc (string m) {
+                return BitConvertionUtils.ToByteArray (m, stringFormat);
+            }
+
+            byte[] sampleBytes = BitConvertionUtils.ToByteArray (sampleData, byteCountFunc, toByteArrayFunc);
+            int currentByteIndex = 0;
+            Assert.True (BitConvertionUtils.NextBytesToArray (sampleBytes, ref currentByteIndex, out string[] copyData, BitConvertionUtils.NextBytesToString));
+
+            Assert.True (ArrayUtils.CheckOrderedEquals (copyData, sampleData));
+            Assert.Equal (BitConvertionUtils.GetByteCount (sampleData, byteCountFunc), currentByteIndex);
+
+            // Excess Read ERROR Detection.
+            Assert.False (BitConvertionUtils.NextBytesToArray (sampleBytes, ref currentByteIndex, out string[] _, BitConvertionUtils.NextBytesToString));
+        }
+
+        [Fact]
+        public void DataTest_BitConvertion_List_Full () {
+
+            List<string> sampleData = ["alpha", "beta", "gamma", "delta", "epsilon"];
+            StringFormatEnum stringFormat = StringFormatEnum.UTF_32;
+            int byteCountFunc (string m) {
+                return BitConvertionUtils.GetByteCount (m, stringFormat);
+            }
+            byte[] toByteArrayFunc (string m) {
+                return BitConvertionUtils.ToByteArray (m, stringFormat);
+            }
+
+            byte[] sampleBytes = BitConvertionUtils.ToByteArray (sampleData, byteCountFunc, toByteArrayFunc);
+            int currentByteIndex = 0;
+            Assert.True (BitConvertionUtils.NextBytesToList (sampleBytes, ref currentByteIndex, out List<string> copyData, BitConvertionUtils.NextBytesToString));
+
+            Assert.True (ListUtils.CheckOrderedEquals (copyData, sampleData));
+            Assert.Equal (BitConvertionUtils.GetByteCount (sampleData, byteCountFunc), currentByteIndex);
+
+            // Excess Read ERROR Detection.
+            Assert.False (BitConvertionUtils.NextBytesToList (sampleBytes, ref currentByteIndex, out List<string> _, BitConvertionUtils.NextBytesToString));
+        }
+
+        [Fact]
+        public void DataTest_BitConvertion_List_NonFull () {
+
+            List<string> sampleData = ["alpha", null, "gamma", null, "epsilon", null, null, "theta", "iota", null];
+            StringFormatEnum stringFormat = StringFormatEnum.UNICODE;
+            int byteCountFunc (string m) {
+                return BitConvertionUtils.GetByteCount (m, stringFormat);
+            }
+            byte[] toByteArrayFunc (string m) {
+                return BitConvertionUtils.ToByteArray (m, stringFormat);
+            }
+
+            byte[] sampleBytes = BitConvertionUtils.ToByteArray (sampleData, byteCountFunc, toByteArrayFunc);
+            int currentByteIndex = 0;
+            Assert.True (BitConvertionUtils.NextBytesToList (sampleBytes, ref currentByteIndex, out List<string> copyData, BitConvertionUtils.NextBytesToString));
+
+            Assert.True (ListUtils.CheckOrderedEquals (copyData, sampleData));
+            Assert.Equal (BitConvertionUtils.GetByteCount (sampleData, byteCountFunc), currentByteIndex);
+
+            // Excess Read ERROR Detection.
+            Assert.False (BitConvertionUtils.NextBytesToList (sampleBytes, ref currentByteIndex, out List<string> _, BitConvertionUtils.NextBytesToString));
         }
 
         #endregion

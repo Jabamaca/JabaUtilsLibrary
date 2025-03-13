@@ -18,6 +18,12 @@ namespace JabaUtilsLibrary.Data {
                 if (dict2.TryGetValue (kvp1.Key, out V value2)) {
                     V value1 = kvp1.Value;
 
+                    // Check NULL equality.
+                    if (value1 == null && value2 == null)
+                        continue;
+                    else if (value1 == null || value2 == null)
+                        return false;
+
                     // Check value equality.
                     if (!value1.Equals (value2))
                         return false;

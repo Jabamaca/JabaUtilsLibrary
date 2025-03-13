@@ -45,6 +45,12 @@ namespace JabaUtilsLibrary_UnitTest.Tests.Data {
         #region Main Tests
 
         [Fact]
+        public void DataTest_List_CheckEquals_Different () {
+            Assert.False (ListUtils.CheckOrderedEquals (sampleStringList, sampleStringListWithNull));
+            Assert.False (ListUtils.CheckUnorderedEquals (sampleStringList, sampleStringListWithNull));
+        }
+
+        [Fact]
         public void DataTest_List_CheckOrderedEquals_Full () {
             TestMethod_CheckOrderedEquals (sampleStringList);
         }
