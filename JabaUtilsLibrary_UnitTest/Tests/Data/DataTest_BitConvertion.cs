@@ -29,9 +29,23 @@ namespace JabaUtilsLibrary_UnitTest.Tests.Data {
             Assert.False (BitConvertionUtils.NextBytesToString (sampleBytes, ref currentByteIndex, out _));
         }
 
+        private static void TestMethod_CharBitConvertion (char sampleData) {
+            byte[] sampleBytes = [.. BitConvertionUtils.ToByteArray (sampleData)];
+            int currentByteIndex = 0;
+            Assert.True (BitConvertionUtils.NextBytesToChar (sampleBytes, ref currentByteIndex, out char copyData));
+
+            Assert.True (copyData.Equals (sampleData));
+            Assert.Equal (sizeof (char), currentByteIndex);
+
+            // Excess Read ERROR Detection.
+            Assert.False (BitConvertionUtils.NextBytesToChar (sampleBytes, ref currentByteIndex, out _));
+        }
+
         #endregion
 
         #region Main Test
+
+        #region Basic Data Convertion
 
         [Fact]
         public void DataTest_BitConvertion_BoolArray () {
@@ -186,6 +200,16 @@ namespace JabaUtilsLibrary_UnitTest.Tests.Data {
         }
 
         [Fact]
+        public void DataTest_BitConvertion_Char_Normal () {
+            TestMethod_CharBitConvertion ('T');
+        }
+
+        [Fact]
+        public void DataTest_BitConvertion_Char_Unicode () {
+            TestMethod_CharBitConvertion ('\u0000');
+        }
+
+        [Fact]
         public void DataTest_BitConvertion_String_Full () {
             TestMethod_StringBitConvertion ("HELLO WORLD!!!", StringFormatEnum.UTF_8);
         }
@@ -199,6 +223,10 @@ namespace JabaUtilsLibrary_UnitTest.Tests.Data {
         public void DataTest_BitConvertion_String_Null () {
             TestMethod_StringBitConvertion (null, StringFormatEnum.UNICODE);
         }
+
+        #endregion
+
+        #region Data Struct Convertion
 
         [Fact]
         public void DataTest_BitConvertion_Array_Full () {
@@ -291,6 +319,95 @@ namespace JabaUtilsLibrary_UnitTest.Tests.Data {
             // Excess Read ERROR Detection.
             Assert.False (BitConvertionUtils.NextBytesToList (sampleBytes, ref currentByteIndex, out List<string> _, BitConvertionUtils.NextBytesToString));
         }
+
+        [Fact]
+        public void DataTest_BitConvertion_Dictionary_Full () {
+            Dictionary<string, string> sampleData = new () {
+                { "alpha", "one" },
+                { "beta", "two" },
+                { "gamma", "three" },
+                { "delta", "four" },
+                { "epsilon", "five" },
+            };
+            StringFormatEnum stringFormat = StringFormatEnum.UTF_8;
+            int byteCountFunc (string m) {
+                return BitConvertionUtils.GetByteCount (m, stringFormat);
+            }
+            byte[] toByteArrayFunc (string m) {
+                return BitConvertionUtils.ToByteArray (m, stringFormat);
+            }
+
+            byte[] sampleBytes = BitConvertionUtils.ToByteArray (sampleData, 
+                keyByteCountFunc: byteCountFunc,
+                valueByteCountFunc: byteCountFunc, 
+                keyToByteArrayFunc: toByteArrayFunc,
+                valueToByteArrayFunc: toByteArrayFunc);
+            int currentByteIndex = 0;
+            Assert.True (BitConvertionUtils.NextBytesToDictionary (sampleBytes, 
+                ref currentByteIndex, 
+                out Dictionary<string, string> copyData, 
+                nextBytesToKeyFunc: BitConvertionUtils.NextBytesToString, 
+                nextBytesToValueFunc: BitConvertionUtils.NextBytesToString));
+
+            Assert.True (DictionaryUtils.CheckStrictEquals (copyData, sampleData));
+            int sampleByteCount = BitConvertionUtils.GetByteCount (sampleData,
+                keyByteCountFunc: byteCountFunc, valueByteCountFunc: byteCountFunc);
+            Assert.Equal (sampleByteCount, currentByteIndex);
+
+            // Excess Read ERROR Detection.
+            Assert.False (BitConvertionUtils.NextBytesToDictionary (sampleBytes,
+                ref currentByteIndex,
+                out Dictionary<string, string> _,
+                nextBytesToKeyFunc: BitConvertionUtils.NextBytesToString,
+                nextBytesToValueFunc: BitConvertionUtils.NextBytesToString));
+        }
+
+        [Fact]
+        public void DataTest_BitConvertion_Dictionary_NonFull () {
+            Dictionary<string, string> sampleData = new () {
+                { "alpha", null },
+                { "beta", "" },
+                { "gamma", "three" },
+                { "delta", null },
+                { "epsilon", "five" },
+                { "zeta", "" },
+                { "eta", null },
+                { "theta", null },
+            };
+            StringFormatEnum stringFormat = StringFormatEnum.UTF_32;
+            int byteCountFunc (string m) {
+                return BitConvertionUtils.GetByteCount (m, stringFormat);
+            }
+            byte[] toByteArrayFunc (string m) {
+                return BitConvertionUtils.ToByteArray (m, stringFormat);
+            }
+
+            byte[] sampleBytes = BitConvertionUtils.ToByteArray (sampleData,
+                keyByteCountFunc: byteCountFunc,
+                valueByteCountFunc: byteCountFunc,
+                keyToByteArrayFunc: toByteArrayFunc,
+                valueToByteArrayFunc: toByteArrayFunc);
+            int currentByteIndex = 0;
+            Assert.True (BitConvertionUtils.NextBytesToDictionary (sampleBytes,
+                ref currentByteIndex,
+                out Dictionary<string, string> copyData,
+                nextBytesToKeyFunc: BitConvertionUtils.NextBytesToString,
+                nextBytesToValueFunc: BitConvertionUtils.NextBytesToString));
+
+            Assert.True (DictionaryUtils.CheckNonStrictEquals (copyData, sampleData));
+            int sampleByteCount = BitConvertionUtils.GetByteCount (sampleData,
+                keyByteCountFunc: byteCountFunc, valueByteCountFunc: byteCountFunc);
+            Assert.Equal (sampleByteCount, currentByteIndex);
+
+            // Excess Read ERROR Detection.
+            Assert.False (BitConvertionUtils.NextBytesToDictionary (sampleBytes,
+                ref currentByteIndex,
+                out Dictionary<string, string> _,
+                nextBytesToKeyFunc: BitConvertionUtils.NextBytesToString,
+                nextBytesToValueFunc: BitConvertionUtils.NextBytesToString));
+        }
+
+        #endregion
 
         #endregion
 

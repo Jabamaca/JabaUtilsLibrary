@@ -26,6 +26,8 @@ namespace JabaUtilsLibrary.Data.BitConvertion {
 
         #region Convertion Methods
 
+        #region Basic Data Convertion
+
         #region EIGHT BIT SET Bit Convertion (8-bit)
 
         public static bool NextByteToEightBitSet (byte[] bytes, ref int currentByteIndex, out EightBitSet outValue) {
@@ -223,7 +225,7 @@ namespace JabaUtilsLibrary.Data.BitConvertion {
             }
 
             outValue = BitConverter.ToChar (bytes, startIndex: currentByteIndex);
-            currentByteIndex += sizeof (float);
+            currentByteIndex += sizeof (char);
             return true;
         }
 
@@ -296,6 +298,8 @@ namespace JabaUtilsLibrary.Data.BitConvertion {
             byte[] lengthBytes = ToByteArray (stringBytes.Length);
             return [(byte)stringFormat, .. lengthBytes, .. stringBytes];
         }
+
+        #endregion
 
         #endregion
 
@@ -486,7 +490,7 @@ namespace JabaUtilsLibrary.Data.BitConvertion {
 
         public static bool NextBytesToDictionary<K, V> (byte[] bytes, ref int currentByteIndex, out Dictionary<K, V> outValue, NextBytesToDataFunc<K> nextBytesToKeyFunc, NextBytesToDataFunc<V> nextBytesToValueFunc) {
             outValue = [];
-            if (!NextBytesToInt (bytes, ref currentByteIndex, out int arraySize)) {
+            if (!NextBytesToInt (bytes, ref currentByteIndex, out int dictCount)) {
                 return false;
             }
 
@@ -497,12 +501,13 @@ namespace JabaUtilsLibrary.Data.BitConvertion {
             int nullMemberCount = nullIndexes.Length;
             int currentNullIndexIndex = 0;
 
-            for (int i = 0; i < arraySize; i++) {
+            for (int i = 0; i < dictCount; i++) {
                 if (!nextBytesToKeyFunc (bytes, ref currentByteIndex, out K key)) {
                     return false;
                 }
 
                 if (currentNullIndexIndex < nullMemberCount && i == nullIndexes[currentNullIndexIndex]) {
+                    // No point in adding null-value keys.
                     currentNullIndexIndex++;
                     continue;
                 }
@@ -524,7 +529,7 @@ namespace JabaUtilsLibrary.Data.BitConvertion {
 
             var sourceKvps = source.ToList ();
 
-            AddBytesToByteArray (ToByteArray (byteCount), byteArray, ref currentByteIndex);
+            AddBytesToByteArray (ToByteArray (sourceKvps.Count), byteArray, ref currentByteIndex);
 
             // Check for Null Members
             int nullMemberCount = 0;

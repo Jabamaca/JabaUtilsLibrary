@@ -37,43 +37,108 @@ namespace JabaUtilsLibrary_UnitTest.Tests.Data {
         #region Main Tests
 
         [Fact]
-        public void DataTest_Dictionary_CheckEquals_Different () {
-            Assert.False (DictionaryUtils.CheckEquals (sampleStringDict, sampleStringDictWithNull));
+        public void DataTest_Dictionary_CheckStrictEquals_Different () {
+            Assert.False (DictionaryUtils.CheckStrictEquals (sampleStringDict, sampleStringDictWithNull));
         }
 
         [Fact]
-        public void DataTest_Dictionary_CheckEquals_Full () {
+        public void DataTest_Dictionary_CheckStrictEquals_Full () {
             Dictionary<string, string> sampleDict1 = [];
             Dictionary<string, string> sampleDict2 = [];
             TestingMethod_ManualDictAdd (sampleStringDict, sampleDict1);
             TestingMethod_ManualDictAdd (sampleStringDict, sampleDict2);
 
-            Assert.True (DictionaryUtils.CheckEquals (sampleDict1, sampleDict2));
+            Assert.True (DictionaryUtils.CheckStrictEquals (sampleDict1, sampleDict2));
 
             // Manual remove.
             sampleDict1.Remove ("alpha");
 
-            Assert.False (DictionaryUtils.CheckEquals (sampleDict1, sampleDict2));
+            Assert.False (DictionaryUtils.CheckStrictEquals (sampleDict1, sampleDict2));
         }
 
         [Fact]
-        public void DataTest_Dictionary_CheckEquals_WithNull () {
+        public void DataTest_Dictionary_CheckStrictEquals_WithNull () {
             Dictionary<string, string> sampleDict1 = [];
             Dictionary<string, string> sampleDict2 = [];
             TestingMethod_ManualDictAdd (sampleStringDict, sampleDict1);
             TestingMethod_ManualDictAdd (sampleStringDict, sampleDict2);
 
-            Assert.True (DictionaryUtils.CheckEquals (sampleDict1, sampleDict2));
+            Assert.True (DictionaryUtils.CheckStrictEquals (sampleDict1, sampleDict2));
 
             // Manual null set.
             sampleDict1["beta"] = null;
-            Assert.False (DictionaryUtils.CheckEquals (sampleDict1, sampleDict2));
+            Assert.False (DictionaryUtils.CheckStrictEquals (sampleDict1, sampleDict2));
 
             // Manual remove.
             sampleDict1.Remove ("gamma");
             sampleDict2.Remove ("epsilon");
 
-            Assert.False (DictionaryUtils.CheckEquals (sampleDict1, sampleDict2));
+            Assert.False (DictionaryUtils.CheckStrictEquals (sampleDict1, sampleDict2));
+        }
+
+        [Fact]
+        public void DataTest_Dictionary_CheckNonStrictEquals_Full () {
+            Dictionary<string, string> sampleDict1 = [];
+            Dictionary<string, string> sampleDict2 = [];
+            TestingMethod_ManualDictAdd (sampleStringDict, sampleDict1);
+            TestingMethod_ManualDictAdd (sampleStringDict, sampleDict2);
+
+            Assert.True (DictionaryUtils.CheckNonStrictEquals (sampleDict1, sampleDict2));
+
+            // Manual remove.
+            sampleDict1.Remove ("alpha");
+
+            Assert.False (DictionaryUtils.CheckNonStrictEquals (sampleDict1, sampleDict2));
+            Assert.False (DictionaryUtils.CheckNonStrictEquals (sampleDict2, sampleDict1));
+        }
+
+        [Fact]
+        public void DataTest_Dictionary_CheckNonStrictEquals_RemoveAndSet () {
+            Dictionary<string, string> sampleDict1 = [];
+            Dictionary<string, string> sampleDict2 = [];
+            TestingMethod_ManualDictAdd (sampleStringDict, sampleDict1);
+            TestingMethod_ManualDictAdd (sampleStringDict, sampleDict2);
+
+            Assert.True (DictionaryUtils.CheckNonStrictEquals (sampleDict1, sampleDict2));
+
+            // Manual remove and set.
+            sampleDict1.Remove ("alpha");
+            sampleDict2["alpha"] = null;
+
+            Assert.True (DictionaryUtils.CheckNonStrictEquals (sampleDict1, sampleDict2));
+
+            // Manual re-add.
+            sampleDict1["alpha"] = "imaginary";
+
+            Assert.False (DictionaryUtils.CheckNonStrictEquals (sampleDict1, sampleDict2));
+        }
+
+        [Fact]
+        public void DataTest_Dictionary_CheckNonStrictEquals_Excess () {
+            Dictionary<string, string> sampleDict1 = [];
+            Dictionary<string, string> sampleDict2 = [];
+            TestingMethod_ManualDictAdd (sampleStringDict, sampleDict1);
+            TestingMethod_ManualDictAdd (sampleStringDict, sampleDict2);
+
+            Assert.True (DictionaryUtils.CheckNonStrictEquals (sampleDict1, sampleDict2));
+
+            // Manual remove and set.
+            sampleDict2["zeta"] = null;
+            sampleDict2["eta"] = null;
+            sampleDict2["theta"] = null;
+            sampleDict2["iota"] = null;
+
+            Assert.True (DictionaryUtils.CheckNonStrictEquals (sampleDict2, sampleDict1));
+
+            sampleDict1["kappa"] = null;
+            sampleDict1["lambda"] = null;
+
+            Assert.True (DictionaryUtils.CheckNonStrictEquals (sampleDict2, sampleDict1));
+
+            sampleDict1["lambda"] = "Euler's Number";
+
+            Assert.False (DictionaryUtils.CheckNonStrictEquals (sampleDict1, sampleDict2));
+            Assert.False (DictionaryUtils.CheckNonStrictEquals (sampleDict2, sampleDict1));
         }
 
         #endregion
