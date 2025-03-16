@@ -26,21 +26,6 @@ namespace JabaUtilsLibrary.Data.DataStructs {
 
         #endregion
 
-        #region Internal Methods
-
-        public override int GetHashCode () {
-            return base.GetHashCode ();
-        }
-
-        public override bool Equals (object obj) {
-            if (obj is not EightBitSet other)
-                return false;
-
-            return ArrayUtils.CheckOrderedEquals (bits, other.bits);
-        }
-
-        #endregion
-
         #region Implement IBitConvertion
 
         public int GetByteCount () {
@@ -70,6 +55,22 @@ namespace JabaUtilsLibrary.Data.DataStructs {
             }
 
             return [result];
+        }
+
+        #endregion
+
+        #region Internal Methods
+
+        public override int GetHashCode () {
+            return base.GetHashCode ();
+        }
+
+        public override bool Equals (object obj) {
+            if (obj is not EightBitSet other)
+                return false;
+
+            return ArrayUtils.CheckOrderedEquals (bits, other.bits)
+                ;
         }
 
         #endregion
