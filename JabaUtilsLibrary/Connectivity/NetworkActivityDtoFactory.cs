@@ -74,8 +74,12 @@ namespace JabaUtilsLibrary.Connectivity {
                     networkActivity = new WebSocketHandshakeDto ();
                     break;
                 }
-                case CoreNetworkActivityTypeEnum.WEB_SOCKET_PING:{
+                case CoreNetworkActivityTypeEnum.WEB_SOCKET_PING: {
                     networkActivity = new WebSocketPingDto ();
+                    break;
+                }
+                case CoreNetworkActivityTypeEnum.WEB_SOCKET_PONG: {
+                    networkActivity = new WebSocketPongDto ();
                     break;
                 }
                 default: {

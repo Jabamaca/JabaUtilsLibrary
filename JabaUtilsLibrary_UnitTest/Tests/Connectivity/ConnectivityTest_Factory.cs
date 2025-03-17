@@ -72,6 +72,15 @@ namespace JabaUtilsLibrary_UnitTest.Tests.Connectivity {
         }
 
         [Fact]
+        public void ConnectivityTest_Factory_WebSocketPongDto () {
+            WebSocketPongDto sampleDto = new () {
+                pongMessage = "Pong, back to Client...",
+            };
+
+            TestingMethod_MakeSingle (sampleDto);
+        }
+
+        [Fact]
         public void ConnectivityTest_Factory_NetworkActivityDtos_List () {
             List<INetworkActivityDto> networkActivityDtos = [
                 new WebSocketHandshakeDto () {
@@ -88,6 +97,9 @@ namespace JabaUtilsLibrary_UnitTest.Tests.Connectivity {
                     messageTitle = "Game Input Approved",
                     messageContent = "Game Input successfully processed.",
                     activityCodeNumber = 0x01211201,
+                },
+                new WebSocketPongDto () {
+                    pongMessage = "Pong, back to Client...",
                 },
                 new WebSocketPingDto () {
                     clientUuid = "b2344226-289b-4eed-9eea-57621bcb04fb",
@@ -106,6 +118,9 @@ namespace JabaUtilsLibrary_UnitTest.Tests.Connectivity {
                     messageTitle = "Feature Input Warning",
                     messageContent = "Detected server traffic, transaction may take time.",
                     activityCodeNumber = 0x037A4312,
+                },
+                new WebSocketPongDto () {
+                    pongMessage = "Pong, back to Client...",
                 },
                 new WebSocketPingDto () {
                     clientUuid = "c6b713b7-6e8d-4859-a872-b70a6e5987b2",

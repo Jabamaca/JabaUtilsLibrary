@@ -2,17 +2,16 @@
 using JabaUtilsLibrary.Data.BitConvertion;
 
 namespace JabaUtilsLibrary.Connectivity.Dtos.CoreNetworkActivityDtos {
-    public sealed class WebSocketPingDto : CoreNetworkActivityDto {
+    public class WebSocketPongDto : CoreNetworkActivityDto {
 
         #region Properties
 
         private static readonly StringFormatEnum _StringFormat = StringFormatEnum.UTF_8;
 
         public override NetworkActivityBaseTypeEnum NetworkActivityBaseType => NetworkActivityBaseTypeEnum.WEB_SOCKET;
-        public override CoreNetworkActivityTypeEnum CoreNetworkActivityType => CoreNetworkActivityTypeEnum.WEB_SOCKET_PING;
+        public override CoreNetworkActivityTypeEnum CoreNetworkActivityType => CoreNetworkActivityTypeEnum.WEB_SOCKET_PONG;
 
-        public string clientUuid = "";
-        public string pingMessage = "";
+        public string pongMessage = "";
 
         #endregion
 
@@ -20,8 +19,7 @@ namespace JabaUtilsLibrary.Connectivity.Dtos.CoreNetworkActivityDtos {
 
         public override int GetByteCount () {
             return sizeof (CoreNetworkActivityTypeEnum) // Core Network Activity Type
-                + BitConvertionUtils.GetByteCount (clientUuid, _StringFormat) // Client UUID
-                + BitConvertionUtils.GetByteCount (pingMessage, _StringFormat) // Ping Message
+                + BitConvertionUtils.GetByteCount (pongMessage, _StringFormat) // Pong Message
                 ;
         }
 
@@ -29,11 +27,8 @@ namespace JabaUtilsLibrary.Connectivity.Dtos.CoreNetworkActivityDtos {
             // Skip Network Activity Type (pre-defined)
             currentByteIndex += sizeof (CoreNetworkActivityTypeEnum);
 
-            // Client UUID
-            if (!BitConvertionUtils.NextBytesToString (bytes, ref currentByteIndex, out clientUuid))
-                return false;
-            // Ping Message
-            if (!BitConvertionUtils.NextBytesToString (bytes, ref currentByteIndex, out pingMessage))
+            // Pong Message
+            if (!BitConvertionUtils.NextBytesToString (bytes, ref currentByteIndex, out pongMessage))
                 return false;
 
             return true;
@@ -44,11 +39,9 @@ namespace JabaUtilsLibrary.Connectivity.Dtos.CoreNetworkActivityDtos {
             int currentByteIndex = 0;
 
             // Network Activity Type
-            BitConvertionUtils.AddBytesToByteArray (BitConvertionUtils.ToByteArray((uint)CoreNetworkActivityType), byteArray, ref currentByteIndex);
-            // Client UUID
-            BitConvertionUtils.AddBytesToByteArray (BitConvertionUtils.ToByteArray (clientUuid, _StringFormat), byteArray, ref currentByteIndex);
+            BitConvertionUtils.AddBytesToByteArray (BitConvertionUtils.ToByteArray ((uint)CoreNetworkActivityType), byteArray, ref currentByteIndex);
             // Ping Message
-            BitConvertionUtils.AddBytesToByteArray (BitConvertionUtils.ToByteArray (pingMessage, _StringFormat), byteArray, ref currentByteIndex);
+            BitConvertionUtils.AddBytesToByteArray (BitConvertionUtils.ToByteArray (pongMessage, _StringFormat), byteArray, ref currentByteIndex);
 
             return byteArray;
         }
@@ -62,12 +55,11 @@ namespace JabaUtilsLibrary.Connectivity.Dtos.CoreNetworkActivityDtos {
         }
 
         public override bool Equals (object obj) {
-            if (obj is not WebSocketPingDto other)
+            if (obj is not WebSocketPongDto other)
                 return false;
 
             return base.Equals (other)
-                && this.clientUuid.Equals (other.clientUuid)
-                && this.pingMessage.Equals (other.pingMessage)
+                && this.pongMessage.Equals (other.pongMessage)
                 ;
         }
 

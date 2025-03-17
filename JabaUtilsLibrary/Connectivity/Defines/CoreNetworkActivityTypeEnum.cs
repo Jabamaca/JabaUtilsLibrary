@@ -9,7 +9,8 @@ namespace JabaUtilsLibrary.Connectivity.Defines {
         // Connection Activity
         WEB_SOCKET_                     = NetworkActivityBaseTypeEnum.WEB_SOCKET,
         WEB_SOCKET_HANDSHAKE            = WEB_SOCKET_ | 0x00AA0000,
-        WEB_SOCKET_PING                 = WEB_SOCKET_ | 0x00FF0000,
+        WEB_SOCKET_PING                 = WEB_SOCKET_ | 0x00FA0000,
+        WEB_SOCKET_PONG                 = WEB_SOCKET_ | 0x00FB0000,
 
         // System Messages
         FEEDBACK_MESSAGE_               = NetworkActivityBaseTypeEnum.FEEDBACK_MESSAGE,

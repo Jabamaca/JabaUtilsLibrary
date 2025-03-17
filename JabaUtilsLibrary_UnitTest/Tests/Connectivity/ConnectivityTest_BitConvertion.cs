@@ -55,6 +55,15 @@ namespace JabaUtilsLibrary_UnitTest.Tests.Connectivity {
             TestingMethod_DtoBitConvertion (sampleDto, new WebSocketPingDto (), new WebSocketPingDto ());
         }
 
+        [Fact]
+        public void ConnectivityTest_BitConvertion_WebSocketPongDto () {
+            WebSocketPongDto sampleDto = new () {
+                pongMessage = "Pong, back to Client...",
+            };
+
+            TestingMethod_DtoBitConvertion (sampleDto, new WebSocketPongDto (), new WebSocketPongDto ());
+        }
+
         #endregion
 
     }
