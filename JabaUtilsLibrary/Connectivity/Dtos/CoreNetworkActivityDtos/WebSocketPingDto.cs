@@ -66,7 +66,8 @@ namespace JabaUtilsLibrary.Connectivity.Dtos.CoreNetworkActivityDtos {
             if (obj is not WebSocketPingDto other)
                 return false;
 
-            return this.clientUuid.Equals (other.clientUuid)
+            return base.Equals (other)
+                && this.clientUuid.Equals (other.clientUuid)
                 && this.pingMessage.Equals (other.pingMessage)
                 ;
         }

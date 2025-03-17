@@ -13,8 +13,8 @@ namespace JabaUtilsLibrary.Connectivity.Defines {
         GAME_EVENT                      = 0x12000000,
         FEATURE_INPUT                   = 0x21000000,
         FEATURE_EVENT                   = 0x22000000,
-        SERVICE_INPUT                   = 0x32000000,
-        SERVICE_EVENT                   = 0x33000000,
+        SERVICE_REQUEST                 = 0x32000000,
+        SERVICE_FEEDBACK                = 0x33000000,
 
     }
 }

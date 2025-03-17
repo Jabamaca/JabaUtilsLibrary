@@ -86,7 +86,8 @@ namespace JabaUtilsLibrary.Connectivity.Dtos.CoreNetworkActivityDtos {
             if (obj is not FeedbackMessageDto other)
                 return false;
 
-            return this.messageKeyCodeNumber.Equals (other.messageKeyCodeNumber)
+            return base.Equals (other)
+                && this.messageKeyCodeNumber.Equals (other.messageKeyCodeNumber)
                 && this.clientUuid.Equals (other.clientUuid)
                 && this.messageTitle.Equals (other.messageTitle)
                 && this.messageContent.Equals (other.messageContent)
