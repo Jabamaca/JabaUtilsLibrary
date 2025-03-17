@@ -75,6 +75,7 @@ namespace JabaUtilsLibrary.Connectivity {
                     break;
                 }
                 case CoreNetworkActivityTypeEnum.WEB_SOCKET_PING:{
+                    networkActivity = new WebSocketPingDto ();
                     break;
                 }
                 default: {
@@ -102,6 +103,18 @@ namespace JabaUtilsLibrary.Connectivity {
             customFactoryFunc.Invoke (dataBytes, ref currentByteIndex, out networkActivity);
             return true;
         }
+
+#pragma warning disable CA1822 // Mark members as static. (Disable warning for instance parallelism.)
+        public byte[] ProcessNetworkActivitiesToBytes (IEnumerable<INetworkActivityDto> networkActivityDtos) {
+            List<byte> bytesList = [];
+
+            foreach (var networkActivityDto in networkActivityDtos) {
+                bytesList.AddRange (networkActivityDto.ToByteArray ());
+            }
+
+            return [.. bytesList];
+        }
+#pragma warning restore CA1822 // Mark members as static.
 
         #endregion
     }

@@ -11,8 +11,8 @@ namespace JabaUtilsLibrary.Connectivity.Dtos.CoreNetworkActivityDtos {
         public override NetworkActivityBaseTypeEnum NetworkActivityBaseType => NetworkActivityBaseTypeEnum.WEB_SOCKET;
         public override CoreNetworkActivityTypeEnum CoreNetworkActivityType => CoreNetworkActivityTypeEnum.WEB_SOCKET_HANDSHAKE;
 
+        public string clientUuid = "";
         public WebSocketHandshakeTypeEnum handshakeType = WebSocketHandshakeTypeEnum.NULL;
-        public string userUuid = "";
 
         #endregion
 
@@ -20,8 +20,8 @@ namespace JabaUtilsLibrary.Connectivity.Dtos.CoreNetworkActivityDtos {
 
         public override int GetByteCount () {
             return sizeof (CoreNetworkActivityTypeEnum) // Core Network Activity Type
+                + BitConvertionUtils.GetByteCount (clientUuid, _StringFormat) // Client UUID
                 + sizeof (byte) // Handshake Type
-                + BitConvertionUtils.GetByteCount (userUuid, _StringFormat) // User UUID
                 ;
         }
 
@@ -29,13 +29,13 @@ namespace JabaUtilsLibrary.Connectivity.Dtos.CoreNetworkActivityDtos {
             // Skip Core Network Activity Type (pre-defined)
             currentByteIndex += sizeof (CoreNetworkActivityTypeEnum);
 
+            // Client UUID
+            if (!BitConvertionUtils.NextBytesToString (bytes, ref currentByteIndex, out clientUuid))
+                return false;
             // Handshake Type
             if (!BitConvertionUtils.NextByte (bytes, ref currentByteIndex, out byte handshakeTypeByte))
                 return false;
             handshakeType = (WebSocketHandshakeTypeEnum)handshakeTypeByte;
-            // User UUID
-            if (!BitConvertionUtils.NextBytesToString (bytes, ref currentByteIndex, out userUuid))
-                return false;
 
             return true;
         }
@@ -46,10 +46,10 @@ namespace JabaUtilsLibrary.Connectivity.Dtos.CoreNetworkActivityDtos {
 
             // Core Network Activity Type
             BitConvertionUtils.AddBytesToByteArray (BitConvertionUtils.ToByteArray ((uint)CoreNetworkActivityType), byteArray, ref currentByteIndex);
+            // Client UUID
+            BitConvertionUtils.AddBytesToByteArray (BitConvertionUtils.ToByteArray (clientUuid, _StringFormat), byteArray, ref currentByteIndex);
             // Handshake Type
             BitConvertionUtils.AddByteToByteArray ((byte)handshakeType, byteArray, ref currentByteIndex);
-            // User UUID
-            BitConvertionUtils.AddBytesToByteArray (BitConvertionUtils.ToByteArray (userUuid, _StringFormat), byteArray, ref currentByteIndex);
 
             return byteArray;
         }
@@ -70,8 +70,8 @@ namespace JabaUtilsLibrary.Connectivity.Dtos.CoreNetworkActivityDtos {
             if (obj is not WebSocketHandshakeDto other)
                 return false;
 
-            return this.handshakeType.Equals (other.handshakeType)
-                && this.userUuid.Equals (other.userUuid)
+            return this.clientUuid.Equals (other.clientUuid)
+                && this.handshakeType.Equals (other.handshakeType)
                 ;
         }
 

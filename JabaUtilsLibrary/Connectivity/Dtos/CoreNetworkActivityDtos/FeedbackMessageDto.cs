@@ -9,12 +9,12 @@ namespace JabaUtilsLibrary.Connectivity.Dtos.CoreNetworkActivityDtos {
         private static readonly StringFormatEnum _StringFormat = StringFormatEnum.UTF_8;
 
         public override NetworkActivityBaseTypeEnum NetworkActivityBaseType => NetworkActivityBaseTypeEnum.FEEDBACK_MESSAGE;
-        public override CoreNetworkActivityTypeEnum CoreNetworkActivityType => (CoreNetworkActivityTypeEnum)FeedbackMessageType;
+        public override CoreNetworkActivityTypeEnum CoreNetworkActivityType => (CoreNetworkActivityTypeEnum)messageKeyCodeNumber & CoreNetworkActivityTypeEnum.PREFIX_FILTER;
 
-        public FeedbackMessageTypeEnum FeedbackMessageType => (FeedbackMessageTypeEnum)(messageKeyCodeNumber & (uint)FeedbackMessageTypeEnum.PREFIX_FILTER);
+        public FeedbackMessageTypeEnum FeedbackMessageType => (FeedbackMessageTypeEnum)messageKeyCodeNumber & FeedbackMessageTypeEnum.PREFIX_FILTER;
 
         public uint messageKeyCodeNumber = 0;
-        public string playerUuid = "";
+        public string clientUuid = "";
         public string messageTitle = "";
         public string messageContent = "";
         public uint activityCodeNumber = 0;
@@ -29,7 +29,7 @@ namespace JabaUtilsLibrary.Connectivity.Dtos.CoreNetworkActivityDtos {
 
         public override int GetByteCount () {
             return sizeof (uint) // Message Key Code Number. (also Core Network Activity Type)
-                + BitConvertionUtils.GetByteCount (playerUuid, _StringFormat) // Player UUID
+                + BitConvertionUtils.GetByteCount (clientUuid, _StringFormat) // Client UUID
                 + BitConvertionUtils.GetByteCount (messageTitle, _StringFormat) // Message Title
                 + BitConvertionUtils.GetByteCount (messageContent, _StringFormat) // Message Content
                 + sizeof (uint) // Activity Code Number
@@ -40,8 +40,8 @@ namespace JabaUtilsLibrary.Connectivity.Dtos.CoreNetworkActivityDtos {
             // Message Key Code Number. (also Core Network Activity Type)
             if (!BitConvertionUtils.NextBytesToUInt (bytes, ref currentByteIndex, out messageKeyCodeNumber)) 
                 return false;
-            // Player UUID
-            if (!BitConvertionUtils.NextBytesToString (bytes, ref currentByteIndex, out playerUuid))
+            // Client UUID
+            if (!BitConvertionUtils.NextBytesToString (bytes, ref currentByteIndex, out clientUuid))
                 return false;
             // Message Title
             if (!BitConvertionUtils.NextBytesToString (bytes, ref currentByteIndex, out messageTitle))
@@ -62,8 +62,8 @@ namespace JabaUtilsLibrary.Connectivity.Dtos.CoreNetworkActivityDtos {
 
             // Message Key Code Number. (also Core Network Activity Type)
             BitConvertionUtils.AddBytesToByteArray (BitConvertionUtils.ToByteArray (messageKeyCodeNumber), byteArray, ref currentByteIndex);
-            // Player UUID
-            BitConvertionUtils.AddBytesToByteArray (BitConvertionUtils.ToByteArray (playerUuid, _StringFormat), byteArray, ref currentByteIndex);
+            // Client UUID
+            BitConvertionUtils.AddBytesToByteArray (BitConvertionUtils.ToByteArray (clientUuid, _StringFormat), byteArray, ref currentByteIndex);
             // Message Title
             BitConvertionUtils.AddBytesToByteArray (BitConvertionUtils.ToByteArray (messageTitle, _StringFormat), byteArray, ref currentByteIndex);
             // Message Content
@@ -87,7 +87,7 @@ namespace JabaUtilsLibrary.Connectivity.Dtos.CoreNetworkActivityDtos {
                 return false;
 
             return this.messageKeyCodeNumber.Equals (other.messageKeyCodeNumber)
-                && this.playerUuid.Equals (other.playerUuid)
+                && this.clientUuid.Equals (other.clientUuid)
                 && this.messageTitle.Equals (other.messageTitle)
                 && this.messageContent.Equals (other.messageContent)
                 && this.activityCodeNumber.Equals (other.activityCodeNumber)
