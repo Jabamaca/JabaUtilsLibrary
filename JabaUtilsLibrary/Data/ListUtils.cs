@@ -36,7 +36,7 @@ namespace JabaUtilsLibrary.Data {
             if (list1.Count != list2.Count)
                 return false;
 
-            List<T> list2Copy = new (list2);
+            List<T> list2Copy = new List<T> (list2);
 
             foreach (var item1 in list1) {
                 var itemCopy = item1;
@@ -61,8 +61,9 @@ namespace JabaUtilsLibrary.Data {
         }
 
         public static List<T> ShuffleList<T> (List<T> list, Random randomizer) {
-            List<T> shuffledList = [];
-            List<T> randomPool = [.. list];
+            List<T> shuffledList = new List<T> ();
+            List<T> randomPool = new List<T> ();
+            randomPool.AddRange (list);
 
             int itemCount = randomPool.Count;
             for (int j = 0; j < itemCount; j++) {

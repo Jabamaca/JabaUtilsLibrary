@@ -8,7 +8,7 @@ namespace JabaUtilsLibrary.Http {
 
         #region Properties
 
-        private static readonly HttpClient _sharedClient = new ();
+        private static readonly HttpClient _sharedClient = new HttpClient ();
 
         public abstract string ServiceUrl {
             get;

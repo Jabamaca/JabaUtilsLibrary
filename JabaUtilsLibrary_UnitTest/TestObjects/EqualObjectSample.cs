@@ -1,14 +1,21 @@
 ﻿namespace JabaUtilsLibrary_UnitTest.TestObjects {
-    public class EqualObjectSample (int intParam1, int intParam2, string stringParam) {
+    public class EqualObjectSample {
 
         #region Properties
 
-        public int intParam1 = intParam1;
-        public int intParam2 = intParam2;
-        public string stringParam = stringParam;
+        public int intParam1;
+        public int intParam2;
+        public string stringParam;
 
         #endregion
+
         #region Constructors
+
+        public EqualObjectSample (int intParam1, int intParam2, string stringParam) {
+            this.intParam1 = intParam1;
+            this.intParam2 = intParam2;
+            this.stringParam = stringParam;
+        }
 
         #endregion
 
@@ -23,7 +30,7 @@
         }
 
         public override bool Equals (object obj) {
-            if (obj is not EqualObjectSample other)
+            if (!(obj is EqualObjectSample other))
                 return false;
 
             return this.intParam1.Equals (other.intParam1)

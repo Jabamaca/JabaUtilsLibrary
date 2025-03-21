@@ -144,7 +144,7 @@ namespace JabaUtilsLibrary.Data.DataStructs {
         }
 
         public override bool Equals (object obj) {
-            if (obj is not Vector2Double other)
+            if (!(obj is Vector2Double other))
                 return false;
 
             return this.x.Equals (other.x)

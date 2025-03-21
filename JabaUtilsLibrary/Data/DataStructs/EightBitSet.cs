@@ -14,7 +14,7 @@ namespace JabaUtilsLibrary.Data.DataStructs {
         #region Constructors
 
         public static EightBitSet FromBoolArray (bool[] boolArray) {
-            EightBitSet returnValue = new ();
+            EightBitSet returnValue = new EightBitSet ();
 
             int arrayLength = boolArray.Length;
             for (int i = 0; i < BIT_COUNT_OF_BYTE && i < arrayLength; i++) {
@@ -54,7 +54,7 @@ namespace JabaUtilsLibrary.Data.DataStructs {
                 }
             }
 
-            return [result];
+            return new byte[] { result };
         }
 
         #endregion
@@ -66,7 +66,7 @@ namespace JabaUtilsLibrary.Data.DataStructs {
         }
 
         public override bool Equals (object obj) {
-            if (obj is not EightBitSet other)
+            if (!(obj is EightBitSet other))
                 return false;
 
             return ArrayUtils.CheckOrderedEquals (bits, other.bits)

@@ -1,6 +1,7 @@
 ﻿using JabaUtilsLibrary.Data.BitConvertion;
 using JabaUtilsLibrary.Data.DataStructs;
 using JabaUtilsLibrary_UnitTest.TestObjects;
+using Xunit;
 
 namespace JabaUtilsLibrary_UnitTest.Tests.Data {
     public class DataTest_Vector {
@@ -13,7 +14,7 @@ namespace JabaUtilsLibrary_UnitTest.Tests.Data {
 
         [Fact]
         public void DataTest_Vector2Double_Magnitude () {
-            Vector2Double testVectorD = new (3d, 4d);
+            Vector2Double testVectorD = new Vector2Double (3d, 4d);
 
             Assert.True (TestUtils.TestPrecision (25d, testVectorD.SqrMagnitude ()));
             Assert.True (TestUtils.TestPrecision (5d, testVectorD.Magnitude ()));
@@ -27,7 +28,7 @@ namespace JabaUtilsLibrary_UnitTest.Tests.Data {
 
         [Fact]
         public void DataTest_Vector2Double_MagnitudePrecision () {
-            Vector2Double testVectorD = new (10d, 10d);
+            Vector2Double testVectorD = new Vector2Double (10d, 10d);
 
             Assert.Equal (200d, testVectorD.SqrMagnitude ());
 
@@ -38,18 +39,18 @@ namespace JabaUtilsLibrary_UnitTest.Tests.Data {
 
         [Fact]
         public void DataTest_Vector2Double_BitConvertion () {
-            Vector2Double sampleData = new (14.665d, 120.44d);
+            Vector2Double sampleData = new Vector2Double (14.665d, 120.44d);
 
-            byte[] sampleBytes = [.. sampleData.ToByteArray ()];
+            byte[] sampleBytes = sampleData.ToByteArray ();
             int currentByteIndex = 0;
-            Vector2Double copyData = new ();
+            Vector2Double copyData = new Vector2Double ();
             Assert.True (copyData.NextBytesToParams (sampleBytes, ref currentByteIndex));
 
             Assert.True (copyData.Equals (sampleData));
             Assert.Equal (sampleData.GetByteCount (), copyData.GetByteCount ());
 
             // Excess Read ERROR Detection.
-            Vector2Double excessData = new ();
+            Vector2Double excessData = new Vector2Double ();
             Assert.False (excessData.NextBytesToParams (sampleBytes, ref currentByteIndex));
         }
 

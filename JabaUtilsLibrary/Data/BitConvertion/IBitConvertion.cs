@@ -7,9 +7,9 @@
 
         #region Methods
 
-        public int GetByteCount ();
-        public bool NextBytesToParams (byte[] bytes, ref int currentByteIndex);
-        public byte[] ToByteArray ();
+        int GetByteCount ();
+        bool NextBytesToParams (byte[] bytes, ref int currentByteIndex);
+        byte[] ToByteArray ();
 
         #endregion
 

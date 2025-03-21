@@ -3,13 +3,14 @@ using JabaUtilsLibrary.Connectivity.Dtos.CoreNetworkActivityDtos;
 using JabaUtilsLibrary.Connectivity.Dtos;
 using JabaUtilsLibrary.Connectivity;
 using System.Collections.Generic;
+using Xunit;
 
 namespace JabaUtilsLibrary_UnitTest.Tests.Connectivity {
     public class ConnectivityTest_Factory {
 
         #region Sample Data
 
-        private static readonly NetworkActivityDtoFactory _networkActivityDtoFactory = new ();
+        private static readonly NetworkActivityDtoFactory _networkActivityDtoFactory = new NetworkActivityDtoFactory ();
 
         #endregion
 
@@ -40,7 +41,7 @@ namespace JabaUtilsLibrary_UnitTest.Tests.Connectivity {
 
         [Fact]
         public void ConnectivityTest_Factory_FeedbackMessageDto () {
-            FeedbackMessageDto sampleDto = new () {
+            FeedbackMessageDto sampleDto = new FeedbackMessageDto () {
                 messageKeyCodeNumber = (uint)FeedbackMessageTypeEnum.APPROVED | 0x00001395,
                 clientUuid = "6aaf0c53-f1c9-4aff-b6bc-51ee9d05727a",
                 messageTitle = "Game Input Approved",
@@ -53,7 +54,7 @@ namespace JabaUtilsLibrary_UnitTest.Tests.Connectivity {
 
         [Fact]
         public void ConnectivityTest_Factory_WebSocketHandshakeDto () {
-            WebSocketHandshakeDto sampleDto = new () {
+            WebSocketHandshakeDto sampleDto = new WebSocketHandshakeDto () {
                 clientUuid = "83a63b40-0915-4d52-b6e4-f10f100dbab7",
                 handshakeType = WebSocketHandshakeTypeEnum.SERVER_TO_CLIENT_SEND,
             };
@@ -63,7 +64,7 @@ namespace JabaUtilsLibrary_UnitTest.Tests.Connectivity {
 
         [Fact]
         public void ConnectivityTest_Factory_WebSocketPingDto () {
-            WebSocketPingDto sampleDto = new () {
+            WebSocketPingDto sampleDto = new WebSocketPingDto () {
                 clientUuid = "17752193-2a8d-4fb2-9fb8-52ec5eb42e1a",
                 pingMessage = "Pinging..."
             };
@@ -73,7 +74,7 @@ namespace JabaUtilsLibrary_UnitTest.Tests.Connectivity {
 
         [Fact]
         public void ConnectivityTest_Factory_WebSocketPongDto () {
-            WebSocketPongDto sampleDto = new () {
+            WebSocketPongDto sampleDto = new WebSocketPongDto () {
                 pongMessage = "Pong, back to Client...",
             };
 
@@ -82,7 +83,7 @@ namespace JabaUtilsLibrary_UnitTest.Tests.Connectivity {
 
         [Fact]
         public void ConnectivityTest_Factory_NetworkActivityDtos_List () {
-            List<INetworkActivityDto> networkActivityDtos = [
+            List<INetworkActivityDto> networkActivityDtos = new List<INetworkActivityDto> {
                 new WebSocketHandshakeDto () {
                     clientUuid = "a3d47387-a028-461d-bb4f-9b1227e6072e",
                     handshakeType = WebSocketHandshakeTypeEnum.SERVER_TO_CLIENT_SEND,
@@ -130,7 +131,7 @@ namespace JabaUtilsLibrary_UnitTest.Tests.Connectivity {
                     clientUuid = "f57f3b60-39e9-40c0-a63e-2c8da3f91581",
                     pingMessage = "Pinging..."
                 },
-            ];
+            };
 
             TestingMethod_MakeList (networkActivityDtos);
         }

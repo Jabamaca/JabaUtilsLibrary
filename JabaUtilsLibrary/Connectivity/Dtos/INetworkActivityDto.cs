@@ -6,7 +6,7 @@ namespace JabaUtilsLibrary.Connectivity.Dtos {
 
         #region Properties
 
-        public NetworkActivityBaseTypeEnum NetworkActivityBaseType {
+        NetworkActivityBaseTypeEnum NetworkActivityBaseType {
             get;
         }
 

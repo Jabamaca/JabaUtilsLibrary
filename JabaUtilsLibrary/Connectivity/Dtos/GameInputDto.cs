@@ -24,7 +24,7 @@ namespace JabaUtilsLibrary.Connectivity.Dtos {
         }
 
         public override bool Equals (object obj) {
-            if (obj is not GameInputDto other)
+            if (!(obj is  GameInputDto other))
                 return false;
 
             return base.Equals (other)

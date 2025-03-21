@@ -7,20 +7,20 @@ namespace JabaUtilsLibrary.GameLogic {
 
         #region Constants
 
-        public static readonly Vector2Int HexUL = new (-1, 0);
-        public static readonly Vector2Int HexUR = new (0, 1);
-        public static readonly Vector2Int HexDL = new (0, -1);
-        public static readonly Vector2Int HexDR = new (1, 0);
-        public static readonly Vector2Int HexLeft = new (-1, -1);
-        public static readonly Vector2Int HexRight = new (1, 1);
+        public static readonly Vector2Int HexUL = new Vector2Int (-1, 0);
+        public static readonly Vector2Int HexUR = new Vector2Int (0, 1);
+        public static readonly Vector2Int HexDL = new Vector2Int (0, -1);
+        public static readonly Vector2Int HexDR = new Vector2Int (1, 0);
+        public static readonly Vector2Int HexLeft = new Vector2Int (-1, -1);
+        public static readonly Vector2Int HexRight = new Vector2Int (1, 1);
         public static readonly Vector2Int HexCenter = Vector2Int.Zero ();
 
-        private static readonly Vector2Double HRotationX = new (0.5f, 0.5f);
-        private static readonly Vector2Double HRotationY = new (-1f, 1f);
-        private static readonly Vector2Double VRotationX = new (1f, -1f);
-        private static readonly Vector2Double VRotationY = new (0.5f, 0.5f);
-        private static readonly Vector2Double[] HRotateMatrix = [HRotationX, HRotationY];
-        private static readonly Vector2Double[] VRotateMatrix = [VRotationX, VRotationY];
+        private static readonly Vector2Double HRotationX = new Vector2Double (0.5f, 0.5f);
+        private static readonly Vector2Double HRotationY = new Vector2Double (-1f, 1f);
+        private static readonly Vector2Double VRotationX = new Vector2Double (1f, -1f);
+        private static readonly Vector2Double VRotationY = new Vector2Double (0.5f, 0.5f);
+        private static readonly Vector2Double[] HRotateMatrix = { HRotationX, HRotationY, };
+        private static readonly Vector2Double[] VRotateMatrix = { VRotationX, VRotationY, };
 
         #endregion
 
@@ -51,11 +51,11 @@ namespace JabaUtilsLibrary.GameLogic {
 
         public static IReadOnlyList<Vector2Int> HexCoordsInRangeFromHexCoord (Vector2Int hexFrom, int r) {
             if (r < 0) {
-                return [];
+                return new List<Vector2Int> ();
             }
 
             if (r == 0) {
-                Vector2Int[] center = [HexCenter];
+                Vector2Int[] center = { HexCenter };
                 return center;
             }
 

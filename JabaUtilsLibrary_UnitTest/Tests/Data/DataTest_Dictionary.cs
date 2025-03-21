@@ -1,12 +1,13 @@
 ﻿using JabaUtilsLibrary.Data;
 using System.Collections.Generic;
+using Xunit;
 
 namespace JabaUtilsLibrary_UnitTest.Tests.Data {
     public class DataTest_Dictionary {
 
         #region Sample Data
 
-        private readonly Dictionary<string, string> sampleStringDict = new () {
+        private readonly Dictionary<string, string> sampleStringDict = new Dictionary<string, string> () {
             { "alpha", "one" },
             { "beta", "two" },
             { "gamma", "three" }, 
@@ -14,7 +15,7 @@ namespace JabaUtilsLibrary_UnitTest.Tests.Data {
             { "epsilon", "five" },
         };
 
-        private readonly Dictionary<string, string> sampleStringDictWithNull = new () {
+        private readonly Dictionary<string, string> sampleStringDictWithNull = new Dictionary<string, string> () {
             { "alpha", null },
             { "beta", "two" },
             { "gamma", "three" },
@@ -43,8 +44,8 @@ namespace JabaUtilsLibrary_UnitTest.Tests.Data {
 
         [Fact]
         public void DataTest_Dictionary_CheckStrictEquals_Full () {
-            Dictionary<string, string> sampleDict1 = [];
-            Dictionary<string, string> sampleDict2 = [];
+            Dictionary<string, string> sampleDict1 = new Dictionary<string, string> ();
+            Dictionary<string, string> sampleDict2 = new Dictionary<string, string> ();
             TestingMethod_ManualDictAdd (sampleStringDict, sampleDict1);
             TestingMethod_ManualDictAdd (sampleStringDict, sampleDict2);
 
@@ -58,8 +59,8 @@ namespace JabaUtilsLibrary_UnitTest.Tests.Data {
 
         [Fact]
         public void DataTest_Dictionary_CheckStrictEquals_WithNull () {
-            Dictionary<string, string> sampleDict1 = [];
-            Dictionary<string, string> sampleDict2 = [];
+            Dictionary<string, string> sampleDict1 = new Dictionary<string, string> ();
+            Dictionary<string, string> sampleDict2 = new Dictionary<string, string> ();
             TestingMethod_ManualDictAdd (sampleStringDict, sampleDict1);
             TestingMethod_ManualDictAdd (sampleStringDict, sampleDict2);
 
@@ -78,8 +79,8 @@ namespace JabaUtilsLibrary_UnitTest.Tests.Data {
 
         [Fact]
         public void DataTest_Dictionary_CheckNonStrictEquals_Full () {
-            Dictionary<string, string> sampleDict1 = [];
-            Dictionary<string, string> sampleDict2 = [];
+            Dictionary<string, string> sampleDict1 = new Dictionary<string, string> ();
+            Dictionary<string, string> sampleDict2 = new Dictionary<string, string> ();
             TestingMethod_ManualDictAdd (sampleStringDict, sampleDict1);
             TestingMethod_ManualDictAdd (sampleStringDict, sampleDict2);
 
@@ -94,8 +95,8 @@ namespace JabaUtilsLibrary_UnitTest.Tests.Data {
 
         [Fact]
         public void DataTest_Dictionary_CheckNonStrictEquals_RemoveAndSet () {
-            Dictionary<string, string> sampleDict1 = [];
-            Dictionary<string, string> sampleDict2 = [];
+            Dictionary<string, string> sampleDict1 = new Dictionary<string, string> ();
+            Dictionary<string, string> sampleDict2 = new Dictionary<string, string> ();
             TestingMethod_ManualDictAdd (sampleStringDict, sampleDict1);
             TestingMethod_ManualDictAdd (sampleStringDict, sampleDict2);
 
@@ -115,8 +116,8 @@ namespace JabaUtilsLibrary_UnitTest.Tests.Data {
 
         [Fact]
         public void DataTest_Dictionary_CheckNonStrictEquals_Excess () {
-            Dictionary<string, string> sampleDict1 = [];
-            Dictionary<string, string> sampleDict2 = [];
+            Dictionary<string, string> sampleDict1 = new Dictionary<string, string> ();
+            Dictionary<string, string> sampleDict2 = new Dictionary<string, string> ();
             TestingMethod_ManualDictAdd (sampleStringDict, sampleDict1);
             TestingMethod_ManualDictAdd (sampleStringDict, sampleDict2);
 

@@ -7,9 +7,9 @@ namespace JabaUtilsLibrary.Data.Object {
 
         #region Properties
 
-        private readonly List<T> _itemList = [];
-        private readonly List<T> _randomPool = [];
-        private readonly List<T> _shuffledList = [];
+        private readonly List<T> _itemList = new List<T> ();
+        private readonly List<T> _randomPool = new List<T> ();
+        private readonly List<T> _shuffledList = new List<T> ();
         private readonly Random _randomizer = null;
 
         public IReadOnlyList<T> ShuffledList => _shuffledList;

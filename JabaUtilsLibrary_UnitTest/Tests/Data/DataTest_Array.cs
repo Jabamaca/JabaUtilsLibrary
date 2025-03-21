@@ -1,20 +1,22 @@
 ﻿using JabaUtilsLibrary.Data;
+using System.Linq;
+using Xunit;
 
 namespace JabaUtilsLibrary_UnitTest.Tests.Data {
     public class DataTest_Array {
 
         #region Sample Data
 
-        private readonly string[] sampleStringArray = ["alpha", "beta", "gamma", "delta", "epsilon"];
-        private readonly string[] sampleStringArrayWithNull = ["alpha", null, null, "delta", null, "zeta"];
+        private readonly string[] sampleStringArray = { "alpha", "beta", "gamma", "delta", "epsilon" };
+        private readonly string[] sampleStringArrayWithNull = { "alpha", null, null, "delta", null, "zeta" };
 
         #endregion
 
         #region Test Methods
 
         private static void TestMethod_CheckOrderedEquals<T> (T[] sampleList) {
-            T[] sampleList1 = [.. sampleList,];
-            T[] sampleList2 = [.. sampleList,];
+            T[] sampleList1 = sampleList.ToList ().ToArray ();
+            T[] sampleList2 = sampleList.ToList ().ToArray ();
 
             Assert.True (ArrayUtils.CheckOrderedEquals (sampleList1, sampleList2));
 
