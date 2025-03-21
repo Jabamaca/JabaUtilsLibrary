@@ -30,7 +30,7 @@ namespace JabaUtilsLibrary.Connectivity.Dtos {
         }
 
         public override bool Equals (object obj) {
-            if (obj is not CoreNetworkActivityDto other)
+            if (!(obj is CoreNetworkActivityDto other))
                 return false;
 
             return true;

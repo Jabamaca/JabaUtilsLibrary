@@ -55,7 +55,7 @@ namespace JabaUtilsLibrary.Connectivity.Dtos.CoreNetworkActivityDtos {
         }
 
         public override bool Equals (object obj) {
-            if (obj is not WebSocketPongDto other)
+            if (!(obj is WebSocketPongDto other))
                 return false;
 
             return base.Equals (other)

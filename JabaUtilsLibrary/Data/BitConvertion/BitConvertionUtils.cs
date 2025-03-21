@@ -1,6 +1,7 @@
 ﻿using JabaUtilsLibrary.Data.DataStructs;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 
@@ -31,7 +32,7 @@ namespace JabaUtilsLibrary.Data.BitConvertion {
         #region EIGHT BIT SET Bit Convertion (8-bit)
 
         public static bool NextByteToEightBitSet (byte[] bytes, ref int currentByteIndex, out EightBitSet outValue) {
-            outValue = new ();
+            outValue = new EightBitSet ();
             if (currentByteIndex >= bytes.Length)
                 return false;
 
@@ -59,7 +60,7 @@ namespace JabaUtilsLibrary.Data.BitConvertion {
         }
 
         public static byte[] ToByteArray (byte source) {
-            return [source];
+            return new byte[] { source };
         }
 
         #endregion
@@ -245,12 +246,21 @@ namespace JabaUtilsLibrary.Data.BitConvertion {
             if (string.IsNullOrEmpty (source))
                 return size;
 
-            size += stringFormat switch {
-                StringFormatEnum.UTF_8 => Encoding.UTF8.GetBytes (source).Length,
-                StringFormatEnum.UTF_16 => Encoding.Unicode.GetBytes (source).Length,
-                StringFormatEnum.UTF_32 => Encoding.UTF32.GetBytes (source).Length,
-                _ => Encoding.Unicode.GetBytes (source).Length,
-            };
+            switch (stringFormat) {
+                case StringFormatEnum.UTF_8:
+                    size += Encoding.UTF8.GetBytes (source).Length;
+                    break;
+                case StringFormatEnum.UTF_16:
+                    size += Encoding.Unicode.GetBytes (source).Length;
+                    break;
+                case StringFormatEnum.UTF_32:
+                    size += Encoding.UTF32.GetBytes (source).Length;
+                    break;
+                case StringFormatEnum.NULL:
+                default:
+                    size += Encoding.Unicode.GetBytes (source).Length;
+                    break;
+            }
 
             return size;
         }
@@ -271,12 +281,21 @@ namespace JabaUtilsLibrary.Data.BitConvertion {
                     return false;
                 }
 
-                outValue = stringFormat switch {
-                    StringFormatEnum.UTF_8 => Encoding.UTF8.GetString (bytes, currentByteIndex, stringByteLength),
-                    StringFormatEnum.UTF_16 => Encoding.Unicode.GetString (bytes, currentByteIndex, stringByteLength),
-                    StringFormatEnum.UTF_32 => Encoding.UTF32.GetString (bytes, currentByteIndex, stringByteLength),
-                    _ => Encoding.Unicode.GetString (bytes, currentByteIndex, stringByteLength)
-                };
+                switch (stringFormat) {
+                    case StringFormatEnum.UTF_8:
+                        outValue = Encoding.UTF8.GetString (bytes, currentByteIndex, stringByteLength);
+                        break;
+                    case StringFormatEnum.UTF_16:
+                        outValue = Encoding.Unicode.GetString (bytes, currentByteIndex, stringByteLength);
+                        break;
+                    case StringFormatEnum.UTF_32:
+                        outValue = Encoding.UTF32.GetString (bytes, currentByteIndex, stringByteLength);
+                        break;
+                    case StringFormatEnum.NULL:
+                    default:
+                        outValue = Encoding.Unicode.GetString (bytes, currentByteIndex, stringByteLength);
+                        break;
+                }
 
                 Encoding.UTF8.GetString (bytes, currentByteIndex, stringByteLength);
                 currentByteIndex += stringByteLength;
@@ -286,17 +305,36 @@ namespace JabaUtilsLibrary.Data.BitConvertion {
         }
 
         public static byte[] ToByteArray (string source, StringFormatEnum stringFormat) {
-            if (string.IsNullOrEmpty (source))
-                return [(byte)stringFormat, .. ToByteArray (0)];
-
-            byte[] stringBytes = stringFormat switch {
-                StringFormatEnum.UTF_8 => Encoding.UTF8.GetBytes (source),
-                StringFormatEnum.UTF_16 => Encoding.Unicode.GetBytes (source),
-                StringFormatEnum.UTF_32 => Encoding.UTF32.GetBytes (source),
-                _ => Encoding.Unicode.GetBytes (source),
+            List<byte> byteList = new List<byte> {
+                (byte)stringFormat,
             };
+
+            if (string.IsNullOrEmpty (source)) {
+                byteList.AddRange (ToByteArray (0));
+                return byteList.ToArray ();
+            }
+
+            byte[] stringBytes;
+            switch (stringFormat) {
+                case StringFormatEnum.UTF_8:
+                    stringBytes = Encoding.UTF8.GetBytes (source);
+                    break;
+                case StringFormatEnum.UTF_16:
+                    stringBytes = Encoding.Unicode.GetBytes (source);
+                    break;
+                case StringFormatEnum.UTF_32:
+                    stringBytes = Encoding.UTF32.GetBytes (source);
+                    break;
+                case StringFormatEnum.NULL:
+                default:
+                    stringBytes = Encoding.Unicode.GetBytes (source);
+                    break;
+            }
+
             byte[] lengthBytes = ToByteArray (stringBytes.Length);
-            return [(byte)stringFormat, .. lengthBytes, .. stringBytes];
+            byteList.AddRange (lengthBytes);
+            byteList.AddRange (stringBytes);
+            return byteList.ToArray ();
         }
 
         #endregion
@@ -332,7 +370,7 @@ namespace JabaUtilsLibrary.Data.BitConvertion {
             // Check for Null Members
             int nullMemberCount = 0;
             int currentIndex = 0;
-            List<int> nullIndexes = [];
+            List<int> nullIndexes = new List<int> ();
             foreach (T sourceMember in source) {
                 if (sourceMember == null) {
                     nullMemberCount++;
@@ -361,14 +399,14 @@ namespace JabaUtilsLibrary.Data.BitConvertion {
 
         private static bool NextBytesToNullIndexes (byte[] bytes, ref int currentByteIndex, out int[] nullIndexes) {
             if (!NextBytesToInt (bytes, ref currentByteIndex, out int nullMemberCount)) {
-                nullIndexes = [];
+                nullIndexes = new int[0];
                 return false;
             }
 
             nullIndexes = new int[nullMemberCount];
             for (int i = 0; i < nullMemberCount; i++) {
                 if (!NextBytesToInt (bytes, ref currentByteIndex, out int nullIndex)) {
-                    nullIndexes = [];
+                    nullIndexes = new int[0];
                     return false;
                 }
 
@@ -386,12 +424,12 @@ namespace JabaUtilsLibrary.Data.BitConvertion {
 
         public static bool NextBytesToArray<T> (byte[] bytes, ref int currentByteIndex, out T[] outValue, NextBytesToDataFunc<T> nextBytesToMemberFunc) {
             if (!NextBytesToInt (bytes, ref currentByteIndex, out int arrayLength)) {
-                outValue = [];
+                outValue = new T[0];
                 return false;
             }
 
             if (!NextBytesToNullIndexes (bytes, ref currentByteIndex, out int[] nullIndexes)) {
-                outValue = [];
+                outValue = new T[0];
                 return false;
             }
 
@@ -406,7 +444,7 @@ namespace JabaUtilsLibrary.Data.BitConvertion {
                 }
 
                 if (!nextBytesToMemberFunc (bytes, ref currentByteIndex, out T member)) {
-                    outValue = [];
+                    outValue = new T[0];
                     return false;
                 }
 
@@ -429,13 +467,12 @@ namespace JabaUtilsLibrary.Data.BitConvertion {
         }
 
         public static bool NextBytesToList<T> (byte[] bytes, ref int currentByteIndex, out List<T> outValue, NextBytesToDataFunc<T> nextBytesToMemberFunc) {
+            outValue = new List<T> ();
             if (!NextBytesToInt (bytes, ref currentByteIndex, out int listCount)) {
-                outValue = [];
                 return false;
             }
 
             if (!NextBytesToNullIndexes (bytes, ref currentByteIndex, out int[] nullIndexes)) {
-                outValue = [];
                 return false;
             }
 
@@ -450,14 +487,13 @@ namespace JabaUtilsLibrary.Data.BitConvertion {
                 }
 
                 if (!nextBytesToMemberFunc (bytes, ref currentByteIndex, out T member)) {
-                    outValue = [];
                     return false;
                 }
 
                 valueArray[i] = member;
             }
 
-            outValue = [.. valueArray];
+            outValue.AddRange (valueArray);
             return true;
         }
 
@@ -489,7 +525,7 @@ namespace JabaUtilsLibrary.Data.BitConvertion {
         }
 
         public static bool NextBytesToDictionary<K, V> (byte[] bytes, ref int currentByteIndex, out Dictionary<K, V> outValue, NextBytesToDataFunc<K> nextBytesToKeyFunc, NextBytesToDataFunc<V> nextBytesToValueFunc) {
-            outValue = [];
+            outValue = new Dictionary<K, V> ();
             if (!NextBytesToInt (bytes, ref currentByteIndex, out int dictCount)) {
                 return false;
             }
@@ -534,7 +570,7 @@ namespace JabaUtilsLibrary.Data.BitConvertion {
             // Check for Null Members
             int nullMemberCount = 0;
             int currentIndex = 0;
-            List<int> nullIndexes = [];
+            List<int> nullIndexes = new List<int> ();
             foreach (var sourceKvp in sourceKvps) {
                 if (sourceKvp.Value == null) {
                     nullMemberCount++;

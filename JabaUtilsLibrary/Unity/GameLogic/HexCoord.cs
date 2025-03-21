@@ -7,20 +7,20 @@ namespace JabaUtilsLibrary.Unity.GameLogic {
 
         #region Constants
 
-        public static readonly Vector2Int HexUL = new (-1, 0);
-        public static readonly Vector2Int HexUR = new (0, 1);
-        public static readonly Vector2Int HexDL = new (0, -1);
-        public static readonly Vector2Int HexDR = new (1, 0);
-        public static readonly Vector2Int HexLeft = new (-1, -1);
-        public static readonly Vector2Int HexRight = new (1, 1);
+        public static readonly Vector2Int HexUL = new Vector2Int (-1, 0);
+        public static readonly Vector2Int HexUR = new Vector2Int (0, 1);
+        public static readonly Vector2Int HexDL = new Vector2Int (0, -1);
+        public static readonly Vector2Int HexDR = new Vector2Int (1, 0);
+        public static readonly Vector2Int HexLeft = new Vector2Int (-1, -1);
+        public static readonly Vector2Int HexRight = new Vector2Int (1, 1);
         public static readonly Vector2Int HexCenter = Vector2Int.zero;
 
-        private static readonly Vector2 HRotationX = new (0.5f, 0.5f);
-        private static readonly Vector2 HRotationY = new (-1f, 1f);
-        private static readonly Vector2 VRotationX = new (1f, -1f);
-        private static readonly Vector2 VRotationY = new (0.5f, 0.5f);
-        private static readonly Vector2[] HRotateMatrix = [HRotationX, HRotationY];
-        private static readonly Vector2[] VRotateMatrix = [VRotationX, VRotationY];
+        private static readonly Vector2 HRotationX = new Vector2 (0.5f, 0.5f);
+        private static readonly Vector2 HRotationY = new Vector2 (-1f, 1f);
+        private static readonly Vector2 VRotationX = new Vector2 (1f, -1f);
+        private static readonly Vector2 VRotationY = new Vector2 (0.5f, 0.5f);
+        private static readonly Vector2[] HRotateMatrix = { HRotationX, HRotationY, };
+        private static readonly Vector2[] VRotateMatrix = { VRotationX, VRotationY, };
 
         #endregion
 
@@ -51,11 +51,11 @@ namespace JabaUtilsLibrary.Unity.GameLogic {
 
         public static IReadOnlyList<Vector2Int> HexCoordsInRangeFromHexCoord (Vector2Int hexFrom, int r) {
             if (r < 0) {
-                return [];
+                return new List<Vector2Int> ();
             }
 
             if (r == 0) {
-                Vector2Int[] center = [HexCenter];
+                Vector2Int[] center = { HexCenter, };
                 return center;
             }
 

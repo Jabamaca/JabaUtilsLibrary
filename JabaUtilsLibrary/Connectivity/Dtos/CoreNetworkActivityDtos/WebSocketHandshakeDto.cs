@@ -67,7 +67,7 @@ namespace JabaUtilsLibrary.Connectivity.Dtos.CoreNetworkActivityDtos {
         }
 
         public override bool Equals (object obj) {
-            if (obj is not WebSocketHandshakeDto other)
+            if (!(obj is WebSocketHandshakeDto other))
                 return false;
 
             return base.Equals (other)

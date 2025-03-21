@@ -83,7 +83,7 @@ namespace JabaUtilsLibrary.Connectivity.Dtos.CoreNetworkActivityDtos {
         }
 
         public override bool Equals (object obj) {
-            if (obj is not FeedbackMessageDto other)
+            if (!(obj is FeedbackMessageDto other))
                 return false;
 
             return base.Equals (other)

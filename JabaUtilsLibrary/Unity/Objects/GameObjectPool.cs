@@ -14,9 +14,9 @@ namespace JabaUtilsLibrary.Unity.Objects {
 
         [Header ("Pooling State")]
         [SerializeField]
-        private readonly List<T> _pooledObjects = [];
+        private readonly List<T> _pooledObjects = new List<T> ();
         [SerializeField]
-        private readonly List<T> _unpooledObjects = [];
+        private readonly List<T> _unpooledObjects = new List<T> ();
 
         #endregion
 

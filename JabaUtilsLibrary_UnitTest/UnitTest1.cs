@@ -1,4 +1,5 @@
 using System;
+using Xunit;
 
 namespace JabaUtilsLibrary_UnitTest {
     public class UnitTest1 {
@@ -10,26 +11,5 @@ namespace JabaUtilsLibrary_UnitTest {
                 return this.MemberwiseClone ();
             }
         }
-
-        [Fact]
-        public void ExperimentalTesting () {
-            var testA = new CloneTest {
-                a = 1,
-                b = 2,
-                c = 3,
-            };
-
-            var testB = (CloneTest)testA.Clone ();
-
-            Assert.Equal (testA.a, testB.a);
-            Assert.Equal (testA.b, testB.b);
-            Assert.Equal (testA.c, testB.c);
-
-            testB.a = 69;
-            Assert.NotEqual (testA.a, testB.a);
-
-            UnityEngine.Vector2 test = new (5f, 6f);
-        }
-
     }
 }

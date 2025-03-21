@@ -34,7 +34,7 @@ namespace JabaUtilsLibrary_UnitTest.TestObjects {
         }
 
         public override bool Equals (object obj) {
-            if (obj is not JsonObjectSample other)
+            if (!(obj is JsonObjectSample other))
                 return false;
 
             return this.IntParam.Equals (other.IntParam)

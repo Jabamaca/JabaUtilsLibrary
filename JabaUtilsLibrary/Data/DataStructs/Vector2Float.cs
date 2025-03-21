@@ -71,7 +71,7 @@ namespace JabaUtilsLibrary.Data.DataStructs {
         }
 
         public float Magnitude () {
-            return MathF.Sqrt (SqrMagnitude ());
+            return (float)Math.Sqrt (SqrMagnitude ());
         }
 
         public Vector2Float Normalized () {
@@ -144,7 +144,7 @@ namespace JabaUtilsLibrary.Data.DataStructs {
         }
 
         public override bool Equals (object obj) {
-            if (obj is not Vector2Float other)
+            if (!(obj is Vector2Float other))
                 return false;
 
             return this.x.Equals (other.x)

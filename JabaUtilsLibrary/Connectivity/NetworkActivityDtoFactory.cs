@@ -12,7 +12,7 @@ namespace JabaUtilsLibrary.Connectivity {
 
         public delegate bool CustomNetworkActivityDtoFactoryFunc (byte[] dataBytes, ref int currentByteIndex, out INetworkActivityDto networkActivityDto);
 
-        private readonly ConcurrentDictionary<NetworkActivityBaseTypeEnum, CustomNetworkActivityDtoFactoryFunc> _customFactoryFuncDict = [];
+        private readonly ConcurrentDictionary<NetworkActivityBaseTypeEnum, CustomNetworkActivityDtoFactoryFunc> _customFactoryFuncDict = new ConcurrentDictionary<NetworkActivityBaseTypeEnum, CustomNetworkActivityDtoFactoryFunc> ();
 
         #endregion
 
@@ -25,7 +25,7 @@ namespace JabaUtilsLibrary.Connectivity {
         public bool ProcessBytesToNetworkActivities (byte[] bytes, out List<INetworkActivityDto> networkActivities) {
             int dataLength = bytes.Length;
             int currentByteIndex = 0;
-            networkActivities = [];
+            networkActivities = new List<INetworkActivityDto> ();
 
             while (currentByteIndex < dataLength) {
                 uint networkActivityUInt = BitConverter.ToUInt32 (bytes, startIndex: currentByteIndex);
@@ -108,17 +108,15 @@ namespace JabaUtilsLibrary.Connectivity {
             return true;
         }
 
-#pragma warning disable CA1822 // Mark members as static. (Disable warning for instance parallelism.)
         public byte[] ProcessNetworkActivitiesToBytes (IEnumerable<INetworkActivityDto> networkActivityDtos) {
-            List<byte> bytesList = [];
+            List<byte> bytesList = new List<byte> ();
 
             foreach (var networkActivityDto in networkActivityDtos) {
                 bytesList.AddRange (networkActivityDto.ToByteArray ());
             }
 
-            return [.. bytesList];
+            return bytesList.ToArray ();
         }
-#pragma warning restore CA1822 // Mark members as static.
 
         #endregion
     }

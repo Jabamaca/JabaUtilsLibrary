@@ -1,6 +1,8 @@
 ﻿using JabaUtilsLibrary.Connectivity.Defines;
 using JabaUtilsLibrary.Connectivity.Dtos;
 using JabaUtilsLibrary.Connectivity.Dtos.CoreNetworkActivityDtos;
+using System;
+using Xunit;
 
 namespace JabaUtilsLibrary_UnitTest.Tests.Connectivity {
     public class ConnectivityTest_BitConvertion {
@@ -24,7 +26,7 @@ namespace JabaUtilsLibrary_UnitTest.Tests.Connectivity {
 
         [Fact]
         public void ConnectivityTest_BitConvertion_FeedbackMessageDto () {
-            FeedbackMessageDto sampleDto = new () {
+            FeedbackMessageDto sampleDto = new FeedbackMessageDto () {
                 messageKeyCodeNumber = (uint)FeedbackMessageTypeEnum.INFO | 0x000012A4,
                 clientUuid = "4de143c8-895e-4cef-9b92-e23b846a3707",
                 messageTitle = "Query Info",
@@ -37,9 +39,9 @@ namespace JabaUtilsLibrary_UnitTest.Tests.Connectivity {
 
         [Fact]
         public void ConnectivityTest_BitConvertion_WebSocketHandshakeDto () {
-            WebSocketHandshakeDto sampleDto = new () {
-                clientUuid = "6732696b-57d0-4785-a002-62e6fa498a3d",
-                handshakeType = WebSocketHandshakeTypeEnum.SERVER_TO_CLIENT_RECEIVE,
+            WebSocketHandshakeDto sampleDto = new WebSocketHandshakeDto () {
+                handshakeType = WebSocketHandshakeTypeEnum.CLIENT_TO_SERVER_SEND,
+                clientUuid = Guid.NewGuid ().ToString (),
             };
 
             TestingMethod_DtoBitConvertion (sampleDto, new WebSocketHandshakeDto (), new WebSocketHandshakeDto ());
@@ -47,7 +49,7 @@ namespace JabaUtilsLibrary_UnitTest.Tests.Connectivity {
 
         [Fact]
         public void ConnectivityTest_BitConvertion_WebSocketPingDto () {
-            WebSocketPingDto sampleDto = new () {
+            WebSocketPingDto sampleDto = new WebSocketPingDto () {
                 clientUuid = "bf599ec4-f740-45ff-a3ed-3847a4b5e7c7",
                 pingMessage = "Pinging..."
             };
@@ -57,7 +59,7 @@ namespace JabaUtilsLibrary_UnitTest.Tests.Connectivity {
 
         [Fact]
         public void ConnectivityTest_BitConvertion_WebSocketPongDto () {
-            WebSocketPongDto sampleDto = new () {
+            WebSocketPongDto sampleDto = new WebSocketPongDto () {
                 pongMessage = "Pong, back to Client...",
             };
 

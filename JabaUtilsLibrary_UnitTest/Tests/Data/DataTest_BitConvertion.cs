@@ -2,6 +2,7 @@
 using JabaUtilsLibrary.Data.BitConvertion;
 using JabaUtilsLibrary.Data.DataStructs;
 using System.Collections.Generic;
+using Xunit;
 
 namespace JabaUtilsLibrary_UnitTest.Tests.Data {
     public class DataTest_BitConvertion {
@@ -13,7 +14,7 @@ namespace JabaUtilsLibrary_UnitTest.Tests.Data {
         #region Testing Methods
 
         private static void TestMethod_StringBitConvertion (string sampleData, StringFormatEnum stringFormat) {
-            byte[] sampleBytes = [.. BitConvertionUtils.ToByteArray (sampleData, stringFormat)];
+            byte[] sampleBytes = BitConvertionUtils.ToByteArray (sampleData, stringFormat);
 
             int currentByteIndex = 0;
             Assert.True (BitConvertionUtils.NextBytesToString (sampleBytes, ref currentByteIndex, out string copyData));
@@ -30,7 +31,7 @@ namespace JabaUtilsLibrary_UnitTest.Tests.Data {
         }
 
         private static void TestMethod_CharBitConvertion (char sampleData) {
-            byte[] sampleBytes = [.. BitConvertionUtils.ToByteArray (sampleData)];
+            byte[] sampleBytes = BitConvertionUtils.ToByteArray (sampleData);
             int currentByteIndex = 0;
             Assert.True (BitConvertionUtils.NextBytesToChar (sampleBytes, ref currentByteIndex, out char copyData));
 
@@ -49,11 +50,11 @@ namespace JabaUtilsLibrary_UnitTest.Tests.Data {
 
         [Fact]
         public void DataTest_BitConvertion_BoolArray () {
-            bool[] sampleBitSet = [true, false, false, true,
-                true, true, false, true];
+            bool[] sampleBitSet = { true, false, false, true,
+                true, true, false, true };
             EightBitSet sampleData = EightBitSet.FromBoolArray (sampleBitSet);
 
-            byte[] sampleBytes = [.. BitConvertionUtils.ToByteArray (sampleData)];
+            byte[] sampleBytes = BitConvertionUtils.ToByteArray (sampleData);
             int currentByteIndex = 0;
             Assert.True (BitConvertionUtils.NextByteToEightBitSet (sampleBytes, ref currentByteIndex, out EightBitSet copyData));
 
@@ -68,7 +69,7 @@ namespace JabaUtilsLibrary_UnitTest.Tests.Data {
         public void DataTest_BitConvertion_Byte () {
             byte sampleData = 0xAD;
 
-            byte[] sampleBytes = [.. BitConvertionUtils.ToByteArray (sampleData)];
+            byte[] sampleBytes = BitConvertionUtils.ToByteArray (sampleData);
             int currentByteIndex = 0;
             Assert.True (BitConvertionUtils.NextByte (sampleBytes, ref currentByteIndex, out byte copyData));
 
@@ -83,7 +84,7 @@ namespace JabaUtilsLibrary_UnitTest.Tests.Data {
         public void DataTest_BitConvertion_ULong () {
             ulong sampleData = 1544432uL;
 
-            byte[] sampleBytes = [.. BitConvertionUtils.ToByteArray (sampleData)];
+            byte[] sampleBytes = BitConvertionUtils.ToByteArray (sampleData);
             int currentByteIndex = 0;
             Assert.True (BitConvertionUtils.NextBytesToULong (sampleBytes, ref currentByteIndex, out ulong copyData));
 
@@ -98,7 +99,7 @@ namespace JabaUtilsLibrary_UnitTest.Tests.Data {
         public void DataTest_BitConvertion_Long () {
             long sampleData = -66699432L;
 
-            byte[] sampleBytes = [.. BitConvertionUtils.ToByteArray (sampleData)];
+            byte[] sampleBytes = BitConvertionUtils.ToByteArray (sampleData);
             int currentByteIndex = 0;
             Assert.True (BitConvertionUtils.NextBytesToLong (sampleBytes, ref currentByteIndex, out long copyData));
 
@@ -113,7 +114,7 @@ namespace JabaUtilsLibrary_UnitTest.Tests.Data {
         public void DataTest_BitConvertion_UInt () {
             uint sampleData = 4365u;
 
-            byte[] sampleBytes = [.. BitConvertionUtils.ToByteArray (sampleData)];
+            byte[] sampleBytes = BitConvertionUtils.ToByteArray (sampleData);
             int currentByteIndex = 0;
             Assert.True (BitConvertionUtils.NextBytesToUInt (sampleBytes, ref currentByteIndex, out uint copyData));
 
@@ -128,7 +129,7 @@ namespace JabaUtilsLibrary_UnitTest.Tests.Data {
         public void DataTest_BitConversion_Int () {
             int sampleData = -38453;
 
-            byte[] sampleBytes = [.. BitConvertionUtils.ToByteArray (sampleData)];
+            byte[] sampleBytes = BitConvertionUtils.ToByteArray (sampleData);
             int currentByteIndex = 0;
             Assert.True (BitConvertionUtils.NextBytesToInt (sampleBytes, ref currentByteIndex, out int copyData));
 
@@ -143,7 +144,7 @@ namespace JabaUtilsLibrary_UnitTest.Tests.Data {
         public void DataTest_BitConvertion_UShort () {
             ushort sampleData = 991;
 
-            byte[] sampleBytes = [.. BitConvertionUtils.ToByteArray (sampleData)];
+            byte[] sampleBytes = BitConvertionUtils.ToByteArray (sampleData);
             int currentByteIndex = 0;
             Assert.True (BitConvertionUtils.NextBytesToUShort (sampleBytes, ref currentByteIndex, out ushort copyData));
 
@@ -158,7 +159,7 @@ namespace JabaUtilsLibrary_UnitTest.Tests.Data {
         public void DataTest_BitConvertion_Short () {
             short sampleData = -1299;
 
-            byte[] sampleBytes = [.. BitConvertionUtils.ToByteArray (sampleData)];
+            byte[] sampleBytes = BitConvertionUtils.ToByteArray (sampleData);
             int currentByteIndex = 0;
             Assert.True (BitConvertionUtils.NextBytesToShort (sampleBytes, ref currentByteIndex, out short copyData));
 
@@ -173,7 +174,7 @@ namespace JabaUtilsLibrary_UnitTest.Tests.Data {
         public void DataTest_BitConvertion_Double () {
             double sampleData = -1299.66812621d;
 
-            byte[] sampleBytes = [.. BitConvertionUtils.ToByteArray (sampleData)];
+            byte[] sampleBytes = BitConvertionUtils.ToByteArray (sampleData);
             int currentByteIndex = 0;
             Assert.True (BitConvertionUtils.NextBytesToDouble (sampleBytes, ref currentByteIndex, out double copyData));
 
@@ -188,7 +189,7 @@ namespace JabaUtilsLibrary_UnitTest.Tests.Data {
         public void DataTest_BitConvertion_Float () {
             float sampleData = -12996.668f;
 
-            byte[] sampleBytes = [.. BitConvertionUtils.ToByteArray (sampleData)];
+            byte[] sampleBytes = BitConvertionUtils.ToByteArray (sampleData);
             int currentByteIndex = 0;
             Assert.True (BitConvertionUtils.NextBytesToFloat (sampleBytes, ref currentByteIndex, out float copyData));
 
@@ -231,7 +232,7 @@ namespace JabaUtilsLibrary_UnitTest.Tests.Data {
         [Fact]
         public void DataTest_BitConvertion_Array_Full () {
             
-            string[] sampleData = ["alpha", "beta", "gamma", "delta", "epsilon"];
+            string[] sampleData = { "alpha", "beta", "gamma", "delta", "epsilon" };
             StringFormatEnum stringFormat = StringFormatEnum.UTF_16;
             int byteCountFunc (string m) {
                 return BitConvertionUtils.GetByteCount (m, stringFormat);
@@ -254,7 +255,7 @@ namespace JabaUtilsLibrary_UnitTest.Tests.Data {
         [Fact]
         public void DataTest_BitConvertion_Array_NonFull () {
 
-            string[] sampleData = ["alpha", null, "gamma", null, "epsilon", null, null, "theta", "iota", null];
+            string[] sampleData = { "alpha", null, "gamma", null, "epsilon", null, null, "theta", "iota", null };
             StringFormatEnum stringFormat = StringFormatEnum.UTF_8;
             int byteCountFunc (string m) {
                 return BitConvertionUtils.GetByteCount (m, stringFormat);
@@ -277,7 +278,7 @@ namespace JabaUtilsLibrary_UnitTest.Tests.Data {
         [Fact]
         public void DataTest_BitConvertion_List_Full () {
 
-            List<string> sampleData = ["alpha", "beta", "gamma", "delta", "epsilon"];
+            List<string> sampleData = new List<string> { "alpha", "beta", "gamma", "delta", "epsilon" };
             StringFormatEnum stringFormat = StringFormatEnum.UTF_32;
             int byteCountFunc (string m) {
                 return BitConvertionUtils.GetByteCount (m, stringFormat);
@@ -300,7 +301,7 @@ namespace JabaUtilsLibrary_UnitTest.Tests.Data {
         [Fact]
         public void DataTest_BitConvertion_List_NonFull () {
 
-            List<string> sampleData = ["alpha", null, "gamma", null, "epsilon", null, null, "theta", "iota", null];
+            List<string> sampleData = new List<string> { "alpha", null, "gamma", null, "epsilon", null, null, "theta", "iota", null };
             StringFormatEnum stringFormat = StringFormatEnum.UNICODE;
             int byteCountFunc (string m) {
                 return BitConvertionUtils.GetByteCount (m, stringFormat);
@@ -322,7 +323,7 @@ namespace JabaUtilsLibrary_UnitTest.Tests.Data {
 
         [Fact]
         public void DataTest_BitConvertion_Dictionary_Full () {
-            Dictionary<string, string> sampleData = new () {
+            Dictionary<string, string> sampleData = new Dictionary<string, string> () {
                 { "alpha", "one" },
                 { "beta", "two" },
                 { "gamma", "three" },
@@ -364,7 +365,7 @@ namespace JabaUtilsLibrary_UnitTest.Tests.Data {
 
         [Fact]
         public void DataTest_BitConvertion_Dictionary_NonFull () {
-            Dictionary<string, string> sampleData = new () {
+            Dictionary<string, string> sampleData = new Dictionary<string, string> () {
                 { "alpha", null },
                 { "beta", "" },
                 { "gamma", "three" },

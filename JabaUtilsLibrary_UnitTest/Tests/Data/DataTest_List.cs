@@ -1,22 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using JabaUtilsLibrary.Data;
+using Xunit;
 
 namespace JabaUtilsLibrary_UnitTest.Tests.Data {
     public class DataTest_List {
 
         #region Sample Data
 
-        private readonly List<string> sampleStringList = ["alpha", "beta", "gamma", "delta", "epsilon"];
-        private readonly List<string> sampleStringListWithNull = ["alpha", null, null, "delta", null, "zeta"];
+        private readonly List<string> sampleStringList = new List<string> { "alpha", "beta", "gamma", "delta", "epsilon" };
+        private readonly List<string> sampleStringListWithNull = new List<string> { "alpha", null, null, "delta", null, "zeta" };
 
         #endregion
 
         #region Testing Methods
 
         private static void TestMethod_CheckOrderedEquals<T> (List<T> sampleList) {
-            List<T> sampleList1 = [.. sampleList,];
-            List<T> sampleList2 = [.. sampleList,];
+            List<T> sampleList1 = new List<T> ();
+            sampleList1.AddRange (sampleList);
+            List<T> sampleList2 = new List<T> ();
+            sampleList2.AddRange (sampleList);
 
             Assert.True (ListUtils.CheckOrderedEquals (sampleList1, sampleList2));
 
@@ -28,8 +31,10 @@ namespace JabaUtilsLibrary_UnitTest.Tests.Data {
         }
 
         private static void TestMethod_CheckUnorderedEquals<T> (List<T> sampleList) {
-            List<T> sampleList1 = [.. sampleList,];
-            List<T> sampleList2 = [.. sampleList,];
+            List<T> sampleList1 = new List<T> ();
+            sampleList1.AddRange (sampleList);
+            List<T> sampleList2 = new List<T> ();
+            sampleList2.AddRange (sampleList);
 
             Assert.True (ListUtils.CheckUnorderedEquals (sampleList1, sampleList2));
 
@@ -72,7 +77,8 @@ namespace JabaUtilsLibrary_UnitTest.Tests.Data {
 
         [Fact]
         public void DataTest_List_ShuffleList () {
-            List<string> sampleStringList1 = [.. sampleStringList,];
+            List<string> sampleStringList1 = new List<string> ();
+            sampleStringList1.AddRange (sampleStringList);
             // Shuffle by ShuffleList method.
             List<string> sampleStringList2 = ListUtils.ShuffleList (sampleStringList1, new Random (Seed: 45678));
 
