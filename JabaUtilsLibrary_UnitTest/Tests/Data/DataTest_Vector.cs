@@ -1,5 +1,4 @@
-﻿using JabaUtilsLibrary.Data.BitConvertion;
-using JabaUtilsLibrary.Data.DataStructs;
+﻿using JabaUtilsLibrary.Data.DataStructs;
 using JabaUtilsLibrary_UnitTest.TestObjects;
 using Xunit;
 

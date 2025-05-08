@@ -115,6 +115,10 @@ namespace JabaUtilsLibrary.Data.DataStructs {
             return MemberwiseClone ();
         }
 
+        public Vector2Int Copy () {
+            return (Vector2Int)Clone ();
+        }
+
         #endregion
 
         #region Internal Methods

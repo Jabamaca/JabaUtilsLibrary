@@ -1,6 +1,7 @@
-﻿using System;
+﻿using JabaUtilsLibrary.Data.DataStructs;
+using JabaUtilsLibrary.GameLogic.Defines;
+using System;
 using System.Collections.Generic;
-using JabaUtilsLibrary.Data.DataStructs;
 
 namespace JabaUtilsLibrary.GameLogic {
     public static class HexCoord {
@@ -15,6 +16,9 @@ namespace JabaUtilsLibrary.GameLogic {
         public static readonly Vector2Int HexRight = new Vector2Int (1, 1);
         public static readonly Vector2Int HexCenter = Vector2Int.Zero ();
 
+        private const int HEXAGON_SIDE_COUNT = 6;
+        private static readonly Vector2Int PosRotateX = new Vector2Int (1, 1);
+        private static readonly Vector2Int PosRotateY = new Vector2Int (-1, 1);
         private static readonly Vector2Double HRotationX = new Vector2Double (0.5f, 0.5f);
         private static readonly Vector2Double HRotationY = new Vector2Double (-1f, 1f);
         private static readonly Vector2Double VRotationX = new Vector2Double (1f, -1f);
@@ -26,8 +30,10 @@ namespace JabaUtilsLibrary.GameLogic {
 
         #region Methods
 
+        #region Positional Methods
+
         public static int DistanceFromCenter (Vector2Int hexC) {
-            Vector2Int hexRef = hexC;
+            Vector2Int hexRef = hexC.Copy ();
             int axialD = 0;
 
             if (hexC.x < 0 && hexC.y < 0) {
@@ -92,9 +98,57 @@ namespace JabaUtilsLibrary.GameLogic {
             return returnArray;
         }
 
-        public static IReadOnlyList<Vector2Int> HexCoordsInRangeFromCenter (int r) {
+        public static IReadOnlyList<Vector2Int> HexCoordsInRange (int r) {
             return HexCoordsInRangeFromHexCoord (HexCenter, r);
         }
+
+        public static Vector2Int Rotate (Vector2Int startPos, int faceCount, RotationModeEnum rotateMode, Vector2Int centerPos) {
+            faceCount %= HEXAGON_SIDE_COUNT; // Remove full revolutions.
+
+            // If no face-rotation count, or start-position is center.
+            if (faceCount == 0
+                || startPos.Equals (centerPos)) {
+                return startPos.Copy (); // Return as is.
+            }
+
+            switch (rotateMode) {
+                case RotationModeEnum.CLOCKWISE:
+                    // Keep rotation as is.
+                    break;
+                case RotationModeEnum.ANTI_CLOCKWISE:
+                    faceCount = HEXAGON_SIDE_COUNT - faceCount; // Convert to equivalent clockwise rotation.
+                    break;
+                default:
+                    return startPos.Copy (); // ERROR: Return as is.
+            }
+
+            Vector2Int diffPos = startPos - centerPos;
+
+            // Shortcut for >= half-revolution.
+            if (faceCount >= 3) {
+                diffPos *= -1; // Make half-revolution.
+                faceCount %= 3;
+            }
+
+            for (int i = 0; i < faceCount; i++) {
+                diffPos = CenterRotateSingleClockwise (diffPos);
+            }
+
+            return centerPos + diffPos;
+        }
+
+        private static Vector2Int CenterRotateSingleClockwise (Vector2Int hexPos) {
+            Vector2Int xR = PosRotateX;
+            Vector2Int yR = PosRotateY;
+            int xRPos = (xR.x * hexPos.x) + (xR.y * hexPos.y) - hexPos.x;
+            int yRPos = (yR.x * hexPos.x) + (yR.y * hexPos.y);
+
+            return new Vector2Int (xRPos, yRPos);
+        }
+
+        #endregion
+
+        #region Displaying Methods
 
         public static Vector2Double HexCoordHorizontalRenderPosition (Vector2Int hexPos, Vector2Double unitSize) {
             return HexCoordRenderPosition (hexPos, unitSize, HRotateMatrix);
@@ -107,11 +161,13 @@ namespace JabaUtilsLibrary.GameLogic {
         private static Vector2Double HexCoordRenderPosition (Vector2Int hexPos, Vector2Double unitSize, Vector2Double[] rotationMatrix) {
             Vector2Double xR = rotationMatrix[0];
             Vector2Double yR = rotationMatrix[1];
-            double xRPos = (xR.x * hexPos.x + xR.y * hexPos.y) * unitSize.x;
-            double yRPos = (yR.x * hexPos.x + yR.y * hexPos.y) * unitSize.y;
+            double xRPos = ((xR.x * hexPos.x) + (xR.y * hexPos.y)) * unitSize.x;
+            double yRPos = ((yR.x * hexPos.x) + (yR.y * hexPos.y)) * unitSize.y;
 
             return new Vector2Double (xRPos, yRPos);
         }
+
+        #endregion
 
         #endregion
 
