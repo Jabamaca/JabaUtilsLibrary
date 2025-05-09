@@ -33,18 +33,14 @@ namespace JabaUtilsLibrary.GameLogic {
         #region Positional Methods
 
         public static int DistanceFromCenter (Vector2Int hexC) {
-            Vector2Int hexRef = hexC.Copy ();
-            int axialD = 0;
+            int absX = Math.Abs (hexC.x);
+            int absY = Math.Abs (hexC.y);
 
-            if (hexC.x < 0 && hexC.y < 0) {
-                axialD = hexC.x > hexC.y ? -hexC.x : -hexC.y;
-                hexRef.Add (axialD, axialD);
-            } else if (hexC.x > 0 && hexC.y > 0) {
-                axialD = hexC.x < hexC.y ? hexC.x : hexC.y;
-                hexRef.Add (axialD, axialD);
+            if (hexC.x * hexC.y > 0) {
+                return absX >= absY ? absX : absY;
+            } else {
+                return absX + absY;
             }
-
-            return axialD + Math.Abs (hexRef.x) + Math.Abs (hexRef.y);
         }
 
         public static Vector2Int FromToDifference (Vector2Int hexFrom, Vector2Int hexTo) {
@@ -55,43 +51,40 @@ namespace JabaUtilsLibrary.GameLogic {
             return DistanceFromCenter (FromToDifference (hexFrom, hexTo));
         }
 
-        public static IReadOnlyList<Vector2Int> HexCoordsInRangeFromHexCoord (Vector2Int hexFrom, int r) {
-            if (r < 0) {
-                return new List<Vector2Int> ();
+        public static IReadOnlyList<Vector2Int> HexCoordsInRangeFromHexCoord (Vector2Int origin, int r) {
+            // Range is less than or equal 0, return only Origin.
+            if (r <= 0) {
+                Vector2Int[] onlyCenter = { origin.Copy () };
+                return onlyCenter;
             }
 
-            if (r == 0) {
-                Vector2Int[] center = { HexCenter };
-                return center;
-            }
-
+            // Determine coords count.
             int rangeCap = 3 * (r * r + r) + 1;
-
             Vector2Int[] returnArray = new Vector2Int[rangeCap];
 
-            // Origin
-            returnArray[0] = HexCenter;
-            int ci = 1; // Current Index
+            returnArray[0] = origin.Copy (); // Add Origin.
+            int ci = 1, oX = origin.x, oY = origin.y; // Current Index, Origin-X, Origin-Y
 
-            for (int i = 1; i <= r; i++) {
-                // Hex Diagonal Regions
-                returnArray[ci] = HexUL * i + hexFrom;
-                returnArray[ci + 1] = HexUR * i + hexFrom;
-                returnArray[ci + 2] = HexDL * i + hexFrom;
-                returnArray[ci + 3] = HexDR * i + hexFrom;
-                returnArray[ci + 4] = HexLeft * i + hexFrom;
-                returnArray[ci + 5] = HexRight * i + hexFrom;
-                ci += 6; // New index entries.
+            for (int cr = 1; cr <= r; cr++) {
+                // Add Axis Coords.
+                returnArray[ci] = new Vector2Int (oX + cr, oY); // Add Positive-X Axis Coord. (cr as x)
+                returnArray[ci + 1] = new Vector2Int (oX - cr, oY); // Add Negative-X Axis Coord. (cr as x)
+                returnArray[ci + 2] = new Vector2Int (oX, oY + cr); // Add Positive-Y Axis Coord. (cr as y)
+                returnArray[ci + 3] = new Vector2Int (oX, oY - cr); // Add Negative-Y Axis Coord. (cr as y)
+                ci += 4;
 
-                for (int j = 1; i + j <= r; j++) {
-                    // Outskirt Triangle Regions
-                    returnArray[ci] = HexLeft * i + HexUL * j + hexFrom;
-                    returnArray[ci + 1] = HexLeft * i + HexDL * j + hexFrom;
-                    returnArray[ci + 2] = HexRight * i + HexUR * j + hexFrom;
-                    returnArray[ci + 3] = HexRight * i + HexDR * j + hexFrom;
-                    returnArray[ci + 4] = new Vector2Int (hexFrom.x + i, hexFrom.y - j);
-                    returnArray[ci + 5] = new Vector2Int (hexFrom.x - i, hexFrom.y + j);
-                    ci += 6; // New index entries.
+                // Add Positive-Quadrant Coords. (cr as x)
+                for (int y = 1; y <= r; y++) {
+                    returnArray[ci] = new Vector2Int (oX + cr, oY + y); // Add Quadrant-1 Coords.
+                    returnArray[ci + 1] = new Vector2Int (oX - cr, oY - y); // Add Quadrant-3 Coords.
+                    ci += 2;
+                }
+
+                // Add Negative-Quadrant Coords. (cr as x)
+                for (int y = 1; cr + y <= r; y++) {
+                    returnArray[ci] = new Vector2Int (oX - cr, oY + y); // Add Quadrant-2 Coords.
+                    returnArray[ci + 1] = new Vector2Int (oX + cr, oY - y); // Add Quadrant-4 Coords.
+                    ci += 2;
                 }
             }
 
