@@ -19,6 +19,14 @@ namespace JabaUtilsLibrary.Connectivity {
         #region Methods
 
         public bool AddCustomFactoryFunc (NetworkActivityBaseTypeEnum networkActivityBaseType, CustomNetworkActivityDtoFactoryFunc customFactoryFunc) {
+            switch (networkActivityBaseType) {
+                case NetworkActivityBaseTypeEnum.NULL:
+                case NetworkActivityBaseTypeEnum.PREFIX_FILTER:
+                case NetworkActivityBaseTypeEnum.WEB_SOCKET:
+                case NetworkActivityBaseTypeEnum.FEEDBACK_MESSAGE:
+                    return false;
+            }
+
             return _customFactoryFuncDict.TryAdd (networkActivityBaseType, customFactoryFunc);
         }
 
