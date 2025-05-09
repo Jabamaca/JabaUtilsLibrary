@@ -51,7 +51,7 @@ namespace JabaUtilsLibrary.GameLogic {
             return DistanceFromCenter (FromToDifference (hexFrom, hexTo));
         }
 
-        public static IReadOnlyList<Vector2Int> HexCoordsInRangeFromHexCoord (Vector2Int origin, int r) {
+        public static IReadOnlyList<Vector2Int> HexCoordsInRange (Vector2Int origin, int r) {
             // Range is less than or equal 0, return only Origin.
             if (r <= 0) {
                 Vector2Int[] onlyCenter = { origin.Copy () };
@@ -92,7 +92,7 @@ namespace JabaUtilsLibrary.GameLogic {
         }
 
         public static IReadOnlyList<Vector2Int> HexCoordsInRange (int r) {
-            return HexCoordsInRangeFromHexCoord (HexCenter, r);
+            return HexCoordsInRange (HexCenter, r);
         }
 
         public static Vector2Int Rotate (Vector2Int startPos, int faceCount, RotationModeEnum rotateMode, Vector2Int centerPos) {

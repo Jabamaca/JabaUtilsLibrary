@@ -1,6 +1,8 @@
-﻿using JabaUtilsLibrary.Data.DataStructs;
+﻿using JabaUtilsLibrary.Data;
+using JabaUtilsLibrary.Data.DataStructs;
 using JabaUtilsLibrary.GameLogic;
 using JabaUtilsLibrary.GameLogic.Defines;
+using System.Collections.Generic;
 using Xunit;
 
 namespace JabaUtilsLibrary_UnitTest.Tests.GameLogicTest {
@@ -12,7 +14,7 @@ namespace JabaUtilsLibrary_UnitTest.Tests.GameLogicTest {
             Vector2Int centerPos, Vector2Int expectedResult) {
 
             Vector2Int actualResult = HexCoord.Rotate (startPos, faceCount, rotateMode, centerPos);
-            Assert.True (actualResult.Equals (expectedResult));
+            Assert.True (expectedResult.Equals (actualResult));
         }
 
         private void TestMethod_TestDistanceFromCenter (Vector2Int hexPos, int expectedDist) {
@@ -26,7 +28,7 @@ namespace JabaUtilsLibrary_UnitTest.Tests.GameLogicTest {
 
         [Fact]
         public void GameLogicTest_HexCoord_DistanceFromCenter () {
-            int size = 6; // Determine size of array.
+            int size = 10; // Determine size of array.
 
             // Test positive-quadrant distances.
             /*
@@ -63,6 +65,58 @@ namespace JabaUtilsLibrary_UnitTest.Tests.GameLogicTest {
                     TestMethod_TestDistanceFromCenter (new Vector2Int (x, -y), dist); // Test Quadrant-4 coords.
                 }
             }
+        }
+
+        [Fact]
+        public void GameLogicTest_HexCoord_DiffAndDistance () {
+            Vector2Int fromCoord = new Vector2Int (-5, 8);
+            Vector2Int toCoord = new Vector2Int (3, -6);
+            Vector2Int expectedDiff = new Vector2Int (8, -14);
+            int expectedDistance = 22;
+
+            Vector2Int actualDiff = HexCoord.FromToDifference (fromCoord, toCoord);
+            Assert.True (expectedDiff.Equals (actualDiff));
+            Assert.Equal (expectedDistance, HexCoord.FromToDistance (fromCoord, toCoord));
+            Assert.Equal (expectedDistance, HexCoord.DistanceFromCenter (actualDiff));
+        }
+
+        [Fact]
+        public void GameLogicTest_HexCoord_GetCoordsInRange_UniqueResults () {
+            int range = 1, expectedCount = 7;
+
+            // From Dictated Origin.
+            Vector2Int nonZeroOrigin = new Vector2Int (-820, 17);
+            List<Vector2Int> nonZeroExpectedUnique = new List<Vector2Int> {
+                new Vector2Int (-820, 17),
+                new Vector2Int (-819, 17),
+                new Vector2Int (-821, 17),
+                new Vector2Int (-820, 16),
+                new Vector2Int (-820, 18),
+                new Vector2Int (-819, 18),
+                new Vector2Int (-821, 16),
+            };
+
+            List<Vector2Int> nonZeroActualUnique = new List<Vector2Int> ();
+            nonZeroActualUnique.AddRange (HexCoord.HexCoordsInRange (nonZeroOrigin, range));
+
+            Assert.Equal (expectedCount, nonZeroActualUnique.Count);
+            Assert.True (ListUtils.CheckUnorderedEquals (nonZeroExpectedUnique, nonZeroActualUnique));
+
+            List<Vector2Int> zeroExpectedUnique = new List<Vector2Int> {
+                new Vector2Int (0, 0),
+                new Vector2Int (0, 1),
+                new Vector2Int (0, -1),
+                new Vector2Int (1, 1),
+                new Vector2Int (-1, -1),
+                new Vector2Int (1, 0),
+                new Vector2Int (-1, 0),
+            };
+
+            List<Vector2Int> zeroActualUnique = new List<Vector2Int> ();
+            zeroActualUnique.AddRange (HexCoord.HexCoordsInRange (range));
+
+            Assert.Equal (expectedCount, zeroActualUnique.Count);
+            Assert.True (ListUtils.CheckUnorderedEquals (zeroExpectedUnique, zeroActualUnique));
         }
 
         [Fact]
