@@ -1,3 +1,4 @@
+using JabaUtilsLibrary.Data.DataStructs;
 using System;
 using System.Collections.Generic;
 using Xunit;
@@ -38,6 +39,31 @@ namespace JabaUtilsLibrary_UnitTest {
                 Console.WriteLine ("2 AAA");
             }
 
+        }
+
+        [Fact]
+        public void Experiment_StructInequality () {
+            Vector2Int vecBase = new Vector2Int (2, 2);
+            Vector2Int vec1 = vecBase, vec2 = vecBase;
+            Assert.Equal (vec1, vec2);
+            vec2 += new Vector2Int (3, 3);
+            Assert.NotEqual (vec2, vec1);
+            Assert.NotEqual (vec2, vecBase);
+            Assert.Equal (vec1, vecBase);
+
+        }
+
+        [Fact]
+        public void Experiment_OverrideEqualsAsKey () {
+            Dictionary<Vector2Int, int> testDict = new Dictionary<Vector2Int, int> ();
+            Vector2Int key1 = new Vector2Int (2, 2), key2 = key1.Copy ();
+            int value1 = 3, value2 = 89;
+
+            testDict[key1] = value1;
+            testDict[key2] = value2;
+
+            Assert.Equal (testDict[key1], testDict[key2]);
+            Assert.Equal (testDict[key1], value2);
         }
 
         [Fact]

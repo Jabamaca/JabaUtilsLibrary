@@ -2,21 +2,16 @@
 using System;
 
 namespace JabaUtilsLibrary.Data.DataStructs {
-    public class Vector2Double : IBitConvertion, ICloneable {
+    public struct Vector2Double : IBitConvertion, ICloneable {
 
         #region Properties
 
-        public double x = 0f;
-        public double y = 0f;
+        public double x;
+        public double y;
 
         #endregion
 
         #region Constructors
-
-        public Vector2Double () {
-            x = 0f;
-            y = 0f;
-        }
 
         public Vector2Double (double x, double y) {
             this.x = x;
