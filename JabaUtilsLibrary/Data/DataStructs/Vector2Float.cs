@@ -1,8 +1,9 @@
 ﻿using JabaUtilsLibrary.Data.BitConvertion;
+using JabaUtilsLibrary.Data.Interfaces;
 using System;
 
 namespace JabaUtilsLibrary.Data.DataStructs {
-    public struct Vector2Float : IBitConvertion, ICloneable {
+    public struct Vector2Float : IBitConvertion, ICopyable<Vector2Float> {
 
         #region Properties
 
@@ -124,7 +125,11 @@ namespace JabaUtilsLibrary.Data.DataStructs {
 
         #endregion
 
-        #region
+        #region Implement ICopyable
+
+        public Vector2Float Copy () {
+            return (Vector2Float)Clone ();
+        }
 
         public object Clone () {
             return MemberwiseClone ();
