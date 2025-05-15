@@ -33,7 +33,8 @@ namespace JabaUtilsLibrary.Connectivity.Dtos {
             if (!(obj is CoreNetworkActivityDto other))
                 return false;
 
-            return true;
+            return this.NetworkActivityBaseType.Equals (other.NetworkActivityBaseType)
+                && this.CoreNetworkActivityType.Equals (other.CoreNetworkActivityType);
         }
 
         #endregion

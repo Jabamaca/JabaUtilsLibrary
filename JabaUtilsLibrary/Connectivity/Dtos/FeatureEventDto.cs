@@ -27,7 +27,8 @@ namespace JabaUtilsLibrary.Connectivity.Dtos {
             if (!(obj is FeatureEventDto other))
                 return false;
 
-            return base.Equals (other)
+            return
+                this.NetworkActivityBaseType.Equals (other.NetworkActivityBaseType)
                 ;
         }
 

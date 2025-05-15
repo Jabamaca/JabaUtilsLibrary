@@ -27,7 +27,7 @@ namespace JabaUtilsLibrary.Connectivity.Dtos {
             if (!(obj is  GameInputDto other))
                 return false;
 
-            return base.Equals (other)
+            return this.NetworkActivityBaseType.Equals (other.NetworkActivityBaseType)
                 ;
         }
 
