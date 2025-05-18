@@ -26,6 +26,8 @@ namespace JabaUtilsLibrary.Connectivity.Dtos.CoreNetworkActivityDtos {
         public override bool NextBytesToParams (byte[] bytes, ref int currentByteIndex) {
             // Skip Network Activity Type (pre-defined)
             currentByteIndex += sizeof (CoreNetworkActivityTypeEnum);
+            if (currentByteIndex >= bytes.Length)
+                return false;
 
             // Pong Message
             if (!BitConvertionUtils.NextBytesToString (bytes, ref currentByteIndex, out pongMessage))

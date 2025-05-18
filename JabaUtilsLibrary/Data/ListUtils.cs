@@ -75,6 +75,29 @@ namespace JabaUtilsLibrary.Data {
             return shuffledList;
         }
 
+        public static void InsertAt<T> (T entry, List<T> list, int index) {
+            int nextFinalIndex = list.Count;
+
+            if (nextFinalIndex <= 0) {
+                list.Add (entry); // List is empty. Just add entry.
+                return;
+            } else if (index < 0) {
+                index = 0; // Index less than the valid. Correct to 0.
+            } else if (index > nextFinalIndex) {
+                index = nextFinalIndex; // Index more than the valid. Correct to the next final index.
+            }
+
+            list.Add (entry); // Add to make additional capacity.
+
+            T currentEntry = entry, entryBuffer = entry;
+
+            for (int i = index; i <= nextFinalIndex; i++) {
+                entryBuffer = list[i];
+                list[i] = currentEntry;
+                currentEntry = entryBuffer;
+            }
+        }
+
         #endregion
 
     }
