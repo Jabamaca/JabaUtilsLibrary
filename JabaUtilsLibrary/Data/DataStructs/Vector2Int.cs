@@ -68,6 +68,15 @@ namespace JabaUtilsLibrary.Data.DataStructs {
             return new Vector2Int (0, 0);
         }
 
+        public static bool NextBytesToVector2Int (byte[] bytes, ref int currentByteIndex, out Vector2Int value) {
+            value = new Vector2Int ();
+
+            if (!value.NextBytesToParams (bytes, ref currentByteIndex))
+                return false;
+
+            return true;
+        }
+
         #endregion
 
         #endregion
