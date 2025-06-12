@@ -1,6 +1,6 @@
-﻿using JabaUtilsLibrary.Data;
-using JabaUtilsLibrary.Data.BitConvertion;
+﻿using JabaUtilsLibrary.Data.BitConvertion;
 using JabaUtilsLibrary.Data.DataStructs;
+using JabaUtilsLibrary.Data.Utils;
 using System.Collections.Generic;
 using Xunit;
 

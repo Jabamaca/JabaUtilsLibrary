@@ -1,4 +1,4 @@
-﻿using JabaUtilsLibrary.Data;
+﻿using JabaUtilsLibrary.Data.Utils;
 using System.Collections.Generic;
 using Xunit;
 

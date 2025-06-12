@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace JabaUtilsLibrary.Data {
+﻿namespace JabaUtilsLibrary.Data.Utils {
     public class ArrayUtils {
 
         #region Methods

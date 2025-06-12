@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Text.Json;
 
-namespace JabaUtilsLibrary.Data {
+namespace JabaUtilsLibrary.Data.Utils {
 
     public static class DictionaryUtils {
 
@@ -75,5 +75,4 @@ namespace JabaUtilsLibrary.Data {
         #endregion
 
     }
-
 }

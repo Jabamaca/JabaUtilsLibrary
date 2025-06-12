@@ -1,4 +1,5 @@
 ﻿using JabaUtilsLibrary.Data.BitConvertion;
+using JabaUtilsLibrary.Data.Utils;
 
 namespace JabaUtilsLibrary.Data.DataStructs {
     public class EightBitSet : IBitConvertion {

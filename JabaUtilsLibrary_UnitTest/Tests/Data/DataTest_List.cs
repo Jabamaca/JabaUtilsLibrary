@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using JabaUtilsLibrary.Data;
+using JabaUtilsLibrary.Data.Utils;
 using Xunit;
 
 namespace JabaUtilsLibrary_UnitTest.Tests.Data {

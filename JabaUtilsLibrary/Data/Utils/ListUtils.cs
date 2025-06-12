@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace JabaUtilsLibrary.Data {
+namespace JabaUtilsLibrary.Data.Utils {
 
     public static class ListUtils {
 
@@ -42,7 +42,7 @@ namespace JabaUtilsLibrary.Data {
                 var itemCopy = item1;
                 bool isMissingItem = true;
                 foreach (var item2 in list2Copy) {
-                    if ((item1 == null && item2 == null) 
+                    if (item1 == null && item2 == null
                         || item1.Equals (item2)) {
                         itemCopy = item2;
                         isMissingItem = false;
@@ -101,5 +101,4 @@ namespace JabaUtilsLibrary.Data {
         #endregion
 
     }
-
 }

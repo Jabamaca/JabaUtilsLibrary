@@ -1,6 +1,8 @@
 using JabaUtilsLibrary.Data.DataStructs;
 using System;
 using System.Collections.Generic;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 using Xunit;
 
 namespace JabaUtilsLibrary_UnitTest {
@@ -78,6 +80,19 @@ namespace JabaUtilsLibrary_UnitTest {
                 testMember.Test1 ();
                 testMember.Test2 ();
             }
+        }
+
+        [Fact]
+        public void Experiment_Json () {
+            string testJson = 
+                "[" +
+                "1," +
+                "true," +
+                "\"whatever\"," +
+                "{\"int\"" + ":1," + "\"bool\"" + ":false}" +
+                "]";
+
+            var testValue = JsonSerializer.Deserialize<JsonNode> (testJson);
         }
 
     }
